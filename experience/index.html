@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>George Putney — Experience</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles.css">
+<style>
+
+  /* EXPERIENCE TIMELINE */
+  .experience-list {
+    padding-top: 0;
+    position: relative;
+  }
+
+   /* Continuous vertical line running behind all items */
+  .experience-list::before {
+    content: '';
+    position: absolute;
+    left: calc(200px + 40px); /* date col width + gap */
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--ink-12);
+    pointer-events: none;
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 200px 1px 1fr;
+    gap: 0 40px;
+    padding: 72px 0;
+    /* border-bottom: 1px solid var(--ink-12); */
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 600ms ease, transform 600ms ease;
+    position: relative;
+  }
+
+  .exp-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* DATE COLUMN */
+  .exp-date {
+    padding-top: 4px;
+    text-align: right;
+  }
+
+  .exp-period {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-30);
+    line-height: 1.8;
+  }
+
+  .exp-duration {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-30);
+    margin-top: 6px;
+  }
+
+  /* DIVIDER LINE + DOT */
+  .exp-divider {
+    position: relative;
+    background: var(--ink-12);
+    width: 1px;
+  }
+
+  .exp-divider::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--ink-30);
+    transition: border-color 300ms ease, background 300ms ease;
+  }
+
+  .exp-item:hover .exp-divider::before {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* CONTENT COLUMN */
+  .exp-content {
+    padding-left: 8px;
+  }
+
+  .exp-meta {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-30);
+    margin-bottom: 16px;
+  }
+
+  .exp-role {
+    font-family: var(--serif);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+
+  .exp-company {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 300;
+    color: var(--ink-60);
+    margin-bottom: 4px;
+  }
+
+  .exp-location {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--ink-30);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .exp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-60);
+    border: 1px solid var(--ink-12);
+    padding: 5px 10px;
+    border-radius: 2px;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .exp-bullets li {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink-60);
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 10px;
+    max-width: 580px;
+  }
+
+  .exp-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--ink-30);
+    font-size: 13px;
+  }
+
+  /* EDUCATION SECTION */
+  .section-label {
+    padding: 64px 0 0;
+    font-size: 15px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-30);
+    /* border-top: 1px solid var(--ink-12); */
+    margin-top: 8px;
+    padding-top: 48px;
+  }
+
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    padding: 40px 0 80px;
+    border-bottom: 1px solid var(--ink-12);
+  }
+
+  .edu-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 600ms ease, transform 600ms ease;
+  }
+
+  .edu-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .edu-degree {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2.5vw, 30px);
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .edu-school {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-60);
+    margin-bottom: 4px;
+  }
+
+  .edu-meta {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-30);
+    margin-bottom: 16px;
+  }
+
+  .edu-detail {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink-60);
+    max-width: 340px;
+  }
+
+
+@media (max-width: 768px) {
+
+  /* Line indented slightly from the edge */
+  .experience-list::before {
+    left: 0px;
+  }
+
+  .exp-item {
+    grid-template-columns: 1px 1fr;
+    grid-template-rows: auto auto;
+    gap: 0 20px;
+    padding: 48px 0;
+    padding-left: 0px;
+  }
+
+  /* Divider spans both rows so the dot lines up with the date */
+  .exp-divider {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+
+  /* Date moves to the right of the line, text left-aligned */
+  .exp-date {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: left;
+    padding-top: 4px;
+    padding-bottom: 8px;
+  }
+
+  .exp-period {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+    white-space: nowrap;
+  }
+
+  .exp-period br {
+    display: none;
+  }
+
+  .exp-duration {
+    display: none;
+  }
+
+  /* Content sits below the date in the same right column */
+  .exp-content {
+    grid-column: 2;
+    grid-row: 2;
+    padding-left: 0;
+  }
+
+  .exp-role {
+    font-size: clamp(24px, 6vw, 36px);
+  }
+
+  .exp-company {
+    font-size: clamp(15px, 3.5vw, 20px);
+  }
+
+  .exp-bullets li {
+    font-size: 15px;
+    max-width: 100%;
+  }
+
+  /* Education */
+  .edu-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding-bottom: 52px;
+  }
+
+  .edu-degree {
+    font-size: clamp(18px, 5vw, 26px);
+  }
+
+  .section-label {
+    padding-top: 32px;
+    font-size: 18px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+<script src="../nav.js"></script>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Experience</h1>
+    </div>
+    <div>
+      <p class="page-subtitle">Work, Education, &amp; Professional Growth</p>
+      <p class="subtitle-count">03 Roles · 2019–Present</p>
+    </div>
+  </header>
+
+  <!-- FILTER -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterExperience('all', this)">All</button>
+    <button class="filter-btn" onclick="filterExperience('industry', this)">Industry</button>
+    <button class="filter-btn" onclick="filterExperience('finance', this)">Finance</button>
+  </div>
+
+  <!-- EXPERIENCE LIST -->
+  <div class="experience-list">
+
+    <!-- 01 BlackRock -->
+    <article class="exp-item" data-tags="industry finance">
+      <div class="exp-date">
+        <p class="exp-period">Jun 2026 <br/>— Aug 2026</p>
+        <p class="exp-duration"></p>
+      </div>
+      <div class="exp-divider"></div>
+      <div class="exp-content">
+        <p class="exp-meta">03 / Industry · Upcoming</p>
+        <h2 class="exp-role">Aladdin Application Engineering Intern</h2>
+        <p class="exp-company">BlackRock</p>
+        <p class="exp-location">London, UK</p>
+        <div class="exp-tags">
+          <span class="tag">Java</span>
+          <span class="tag">Portfolio Analytics</span>
+          <span class="tag">FinTech</span>
+        </div>
+        <ul class="exp-bullets">
+          <li>Selected for BlackRock's Aladdin Engineering internship within the Aladdin platform team.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 02 UBS -->
+    <article class="exp-item" data-tags="industry finance">
+      <div class="exp-date">
+        <p class="exp-period">Jun 2025 <br/>— Jun 2026</p>
+        <p class="exp-duration"></p>
+      </div>
+      <div class="exp-divider"></div>
+      <div class="exp-content">
+        <p class="exp-meta">02 / Industry · Placement</p>
+        <h2 class="exp-role">Technology Industrial Placement</h2>
+        <p class="exp-company">UBS</p>
+        <p class="exp-location">London, UK</p>
+        <div class="exp-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Azure</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Terraform</span>
+        </div>
+        <ul class="exp-bullets">
+          <li>Owned the migration and rollout of RBAC authorisation automations across 14 Azure Cognitive Services bank-wide, eliminating 20+ daily manual access approvals and strengthening UBS's cloud security posture.</li>
+          <li>Implemented a suite of AI governance KPIs (materiality, answer relevancy, context relevancy, faithfulness) in Python for MyHub GPT Search, a RAG-based internal tool serving 40,000 users and 200,000 queries per month.</li>
+          <li>Migrated the Software Distributions reporting pipeline from on-premises infrastructure to Azure Data Lake using SQL and Azure Data Factory, collaborating cross-functionally with the EUS data engineering team.</li>
+          <li>Developed a machine learning ticket volume prediction model (TSD Predictions), evaluating 10+ approaches across classical ML and time series methods including LightGBM, CatBoost, SARIMA, and Prophet.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 03 Work Experience -->
+    <article class="exp-item" data-tags="finance">
+      <div class="exp-date">
+        <p class="exp-period">Jul 2019</p>
+        <p class="exp-duration"></p>
+      </div>
+      <div class="exp-divider"></div>
+      <div class="exp-content">
+        <p class="exp-meta">01 / Industry · Work Experience</p>
+        <h2 class="exp-role">Security Services Work Experience</h2>
+        <p class="exp-company">BNP Paribas</p>
+        <p class="exp-location">London, UK</p>
+        <div class="exp-tags">
+          <span class="tag">Risk Analysis</span>
+          <span class="tag">Compliance</span>
+          <span class="tag">Financial Data</span>
+        </div>
+        <ul class="exp-bullets">
+          <li>Supported security and risk teams with data analysis and reporting.</li>
+          <li>Gained early exposure to financial security frameworks and compliance standards in a global bank.</li>
+        </ul>
+      </div>
+    </article>
+
+  </div><!-- /experience-list -->
+
+  <!-- EDUCATION -->
+  <p class="section-label">Education</p>
+  <div class="edu-grid">
+
+    <div class="edu-item">
+      <p class="edu-meta">2023 — 2027 · BSc</p>
+      <h3 class="edu-degree">Computer Science and Artificial Intelligence</h3>
+      <p class="edu-school">University of Sheffield</p>
+      <p class="edu-detail" style="margin-top:14px">Integrated industrial placement programme. Currently achieving a first-class grade. Specialising in artificial intelligence and machine learning.</p>
+    </div>
+
+    <div class="edu-item">
+      <p class="edu-meta">2020 — 2022 · A-Levels</p>
+      <h3 class="edu-degree">Mathematics, Further Mathematics, Computer Science</h3>
+      <p class="edu-school">Hampton College, Peterborough</p>
+      <p class="edu-detail" style="margin-top:14px">Grades: A*AA. Awarded the Pink Kangaroo certificate in the UKMT Intermediate Mathematical Challenge.</p>
+
+  </div>
+
+</div><!-- /page -->
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>
+<script src="../footer.js"></script>
+
+<script>
+  // Scroll-in animation
+  const animItems = document.querySelectorAll('.exp-item, .edu-item');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  animItems.forEach((item, i) => {
+    item.style.transitionDelay = `${i * 60}ms`;
+    observer.observe(item);
+  });
+
+  // Filter
+  function filterExperience(tag, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.querySelectorAll('.exp-item').forEach(item => {
+      const tags = item.dataset.tags || '';
+      item.style.display = (tag === 'all' || tags.includes(tag)) ? 'grid' : 'none';
+    });
+  }
+</script>
+</body>
+</html>

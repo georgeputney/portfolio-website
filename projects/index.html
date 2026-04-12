@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>George Putney — Projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../styles.css">
+<style>
+
+  /* PROJECTS LIST */
+  .projects-list {
+    padding-top: 0;
+  }
+
+  .project-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    /* border-bottom: 1px solid var(--ink-12); */
+    padding: 80px 0;
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 600ms ease, transform 600ms ease;
+  }
+
+  .project-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .project-item:nth-child(even) .project-visual { order: 2; }
+  .project-item:nth-child(even) .project-info  { order: 1; padding-right: 64px; padding-left: 0; }
+  .project-item:nth-child(odd)  .project-info  { padding-left: 64px; }
+
+  /* VISUAL */
+  .project-visual {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink-12);
+  }
+
+  .project-visual-inner {
+    aspect-ratio: 4/3;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .project-visual-bg {
+    width: 100%; height: 100%;
+    transition: transform 500ms ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .project-item:hover .project-visual-bg {
+    transform: scale(1.04);
+  }
+
+  /* SVG illustrations per project */
+  .visual-neat {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  }
+  .visual-rl {
+    background: linear-gradient(135deg, #0f1923 0%, #1e3040 100%);
+  }
+  .visual-nlp {
+    background: linear-gradient(135deg, #12091e 0%, #1e1030 100%);
+  }
+  .visual-vis {
+    background: linear-gradient(135deg, #111 0%, #222 100%);
+  }
+
+  .project-number-overlay {
+    position: absolute;
+    bottom: 20px; right: 24px;
+    font-family: var(--serif);
+    font-size: 80px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* INFO */
+  .project-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  .project-meta {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-30);
+    margin-bottom: 20px;
+  }
+
+  .project-name {
+    font-family: var(--serif);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-60);
+    border: 1px solid var(--ink-12);
+    padding: 5px 10px;
+    border-radius: 2px;
+  }
+
+  .project-desc {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink-60);
+    margin-bottom: 36px;
+    max-width: 420px;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    width: fit-content;
+  }
+
+  .project-link::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0;
+    width: 0; height: 1px;
+    background: var(--ink);
+    transition: width 300ms ease;
+  }
+  .project-link:hover::after { width: 100%; }
+
+  .link-arrow {
+    display: inline-block;
+    transition: transform 300ms ease;
+  }
+  .project-link:hover .link-arrow { transform: translateX(5px); }
+
+  /* SVG ILLUSTRATIONS */
+  svg { display: block; }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .page { padding: 0 24px; }
+    .page-header { padding-top: 96px; flex-direction: column; align-items: flex-start; }
+    .project-item { grid-template-columns: 1fr; }
+    .project-item:nth-child(even) .project-visual { order: 1; }
+    .project-item:nth-child(even) .project-info  { order: 2; padding-left: 0; padding-right: 0; }
+    .project-item:nth-child(odd)  .project-info  { padding-left: 0; }
+    .project-info { padding-top: 32px !important; }
+  }
+
+  .mobile-only { display: none; }
+
+@media (max-width: 768px) {
+
+  .mobile-only { display: block; }
+  .project-info .project-meta { display: none; }
+
+  /* Stack project items to single column */
+  .project-item {
+    grid-template-columns: 1fr;
+    padding: 48px 0;
+  }
+
+  /* Reset all even/odd ordering and padding */
+  .project-item:nth-child(even) .project-visual,
+  .project-item:nth-child(odd)  .project-visual { order: 1; }
+
+  .project-item:nth-child(even) .project-info,
+  .project-item:nth-child(odd)  .project-info {
+    order: 2;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 24px;
+  }
+
+  .project-name {
+    font-size: clamp(24px, 6vw, 36px);
+  }
+
+  .project-desc {
+    max-width: 100%;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+<script src="../nav.js"></script>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Projects</h1>
+    </div>
+    <div>
+      <p class="page-subtitle">Selected Work &amp; Case Studies</p>
+      <p class="subtitle-count">03 Projects</p>
+    </div>
+  </header>
+
+  <!-- FILTERS -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterProjects('all', this)">All</button>
+    <button class="filter-btn" onclick="filterProjects('ml', this)">Machine Learning</button>
+    <button class="filter-btn" onclick="filterProjects('nlp', this)">NLP</button>
+    <button class="filter-btn" onclick="filterProjects('simulation', this)">Simulation</button>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="projects-list" id="projects">
+
+    <!-- 01 -->
+    <article class="project-item" data-tags="ml simulation">
+      <p class="project-meta mobile-only">01 / Project</p>
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="project-visual-bg visual-neat">
+            <svg width="320" height="240" viewBox="0 0 320 240" fill="none">
+              <!-- Pipe 1: body ends, THEN cap flush at end, gap y=78–148 -->
+              <rect x="148" y="0"   width="28" height="70" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+              <rect x="143" y="70"  width="38" height="8"  fill="rgba(255,255,255,0.11)" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+              <rect x="143" y="148" width="38" height="8"  fill="rgba(255,255,255,0.11)" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+              <rect x="148" y="156" width="28" height="84" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+              <!-- Pipe 2: body ends, THEN cap flush at end, gap y=54–124 -->
+              <rect x="222" y="0"   width="28" height="46" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+              <rect x="217" y="46"  width="38" height="8"  fill="rgba(255,255,255,0.11)" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+              <rect x="217" y="124" width="38" height="8"  fill="rgba(255,255,255,0.11)" stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+              <rect x="222" y="132" width="28" height="108" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+              <!-- Sensor rays from bird to pipe 1 gap edges -->
+              <line x1="80" y1="118" x2="143" y2="78"  stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="80" y1="118" x2="143" y2="148" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="80" y1="118" x2="143" y2="113" stroke="rgba(255,255,255,0.2)"  stroke-width="1" stroke-dasharray="3,3"/>
+              <!-- Trajectory arc through both gaps -->
+              <path d="M 80,118 C 140,108 200,90 258,89" stroke="rgba(200,64,26,0.45)" stroke-width="1.5" stroke-dasharray="4,3" fill="none"/>
+              <!-- Bird -->
+              <circle cx="80" cy="118" r="9" fill="rgba(200,64,26,0.85)"/>
+              <circle cx="80" cy="118" r="9" stroke="rgba(255,200,150,0.3)" stroke-width="1" fill="none"/>
+              <!-- Ground -->
+              <line x1="0" y1="218" x2="320" y2="218" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+              <!-- Neural network — top-left corner, clear of pipes -->
+              <!-- Input→hidden connections -->
+              <line x1="19" y1="08"  x2="58" y2="18"  stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <line x1="19" y1="08"  x2="58" y2="50"  stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <line x1="19" y1="38"  x2="58" y2="18"  stroke="rgba(255,255,255,0.22)" stroke-width="1"/>
+              <line x1="19" y1="38"  x2="58" y2="50"  stroke="rgba(255,255,255,0.28)" stroke-width="1"/>
+              <line x1="19" y1="68"  x2="58" y2="18"  stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+              <line x1="19" y1="68"  x2="58" y2="50"  stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <!-- Hidden→output connections -->
+              <line x1="58" y1="18"  x2="90" y2="34"  stroke="rgba(200,64,26,0.55)" stroke-width="1"/>
+              <line x1="58" y1="60"  x2="90" y2="34"  stroke="rgba(200,64,26,0.35)" stroke-width="1"/>
+              <!-- Input nodes -->
+              <circle cx="19" cy="08"  r="7" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+              <circle cx="19" cy="38"  r="7" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+              <circle cx="19" cy="68"  r="7" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+              <!-- Hidden nodes -->
+              <circle cx="58" cy="18"  r="7" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+              <circle cx="58" cy="50"  r="7" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+              <!-- Output node -->
+              <circle cx="90" cy="34"  r="7" fill="rgba(200,64,26,0.2)" stroke="rgba(200,64,26,0.7)" stroke-width="1"/>
+              <!-- Labels below each node -->
+              <text x="19" y="24"  fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="7" text-anchor="middle">vel</text>
+              <text x="19" y="54"  fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="7" text-anchor="middle">dist</text>
+              <text x="19" y="84" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="7" text-anchor="middle">gap</text>
+              <text x="97" y="50"  fill="rgba(200,64,26,0.55)" font-family="monospace" font-size="6" text-anchor="middle">FLAP</text>
+              <!-- Footer -->
+              <text x="20" y="232" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="9">GEN 47 — FITNESS 94.2%</text>
+            </svg>
+            <div class="project-number-overlay">01</div>
+          </div>
+        </div>
+      </div>
+      <div class="project-info">
+        <p class="project-meta">01 / Project</p>
+        <div>
+          <h2 class="project-name">Flappy Bird Neuroevolution</h2>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Neuroevolution</span>
+            <span class="tag">Simulation</span>
+          </div>
+          <p class="project-desc">Evolves neural networks to play Flappy Bird using the NEAT algorithm. Agents are trained across generations in a deterministic environment, with a browser-based replay viewer for visualising the evolved behaviour.</p>
+        </div>
+        <a href="#" class="project-link">View Project <span class="link-arrow">→</span></a>
+      </div>
+    </article>
+
+    <!-- 02 -->
+    <article class="project-item" data-tags="ml">
+      <p class="project-meta mobile-only">02 / Project</p>
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="project-visual-bg visual-rl">
+            <svg width="320" height="240" viewBox="0 0 320 240" fill="none">
+              <!-- Header: driver | bar | PRED right@248 | £M right@285 -->
+              <text x="20" y="18" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9">DRIVER</text>
+              <text x="248" y="18" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">PRED</text>
+              <text x="285" y="18" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">£M</text>
+              <line x1="20" y1="24" x2="300" y2="24" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+              <!-- ANT — selected, 150 pts, £24.1M -->
+              <text x="54" y="44" fill="rgba(255,255,255,0.65)" font-family="monospace" font-size="10" text-anchor="end">ANT</text>
+              <rect x="60" y="34" width="155" height="14" fill="rgba(200,64,26,0.65)" rx="2"/>
+              <text x="248" y="44" fill="rgba(255,255,255,0.45)" font-family="monospace" font-size="9" text-anchor="end">50</text>
+              <text x="285" y="44" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="9" text-anchor="end">24.1</text>
+              <text x="296" y="45" fill="rgba(200,64,26,0.95)" font-family="monospace" font-size="11">✓</text>
+              <!-- LEC — selected, 111 pts, £23.7M -->
+              <text x="54" y="72" fill="rgba(255,255,255,0.65)" font-family="monospace" font-size="10" text-anchor="end">LEC</text>
+              <rect x="60" y="62" width="115" height="14" fill="rgba(200,64,26,0.65)" rx="2"/>
+              <text x="248" y="72" fill="rgba(255,255,255,0.45)" font-family="monospace" font-size="9" text-anchor="end">37</text>
+              <text x="285" y="72" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="9" text-anchor="end">23.7</text>
+              <text x="296" y="73" fill="rgba(200,64,26,0.95)" font-family="monospace" font-size="11">✓</text>
+              <!-- RUS — not selected, 111 pts, £28.3M -->
+              <text x="54" y="100" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="10" text-anchor="end">RUS</text>
+              <rect x="60" y="90" width="115" height="14" fill="rgba(255,255,255,0.07)" rx="2"/>
+              <text x="248" y="100" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">37</text>
+              <text x="285" y="100" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">28.3</text>
+              <!-- HAM — selected, 92 pts, £23.2M -->
+              <text x="54" y="128" fill="rgba(255,255,255,0.65)" font-family="monospace" font-size="10" text-anchor="end">HAM</text>
+              <rect x="60" y="118" width="95" height="14" fill="rgba(200,64,26,0.65)" rx="2"/>
+              <text x="248" y="128" fill="rgba(255,255,255,0.45)" font-family="monospace" font-size="9" text-anchor="end">30</text>
+              <text x="285" y="128" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="9" text-anchor="end">23.2</text>
+              <text x="296" y="129" fill="rgba(200,64,26,0.95)" font-family="monospace" font-size="11">✓</text>
+              <!-- VER — not selected, 77 pts, £28.2M -->
+              <text x="54" y="156" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="10" text-anchor="end">VER</text>
+              <rect x="60" y="146" width="79" height="14" fill="rgba(255,255,255,0.07)" rx="2"/>
+              <text x="248" y="156" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">26</text>
+              <text x="285" y="156" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">28.2</text>
+              <!-- Budget bar -->
+              <line x1="20" y1="174" x2="300" y2="174" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+              <text x="20" y="188" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="9">TOTAL — £96.9M / £100M</text>
+              <rect x="20" y="196" width="275" height="3" fill="rgba(255,255,255,0.06)" rx="1"/>
+              <rect x="20" y="196" width="266" height="3" fill="rgba(200,64,26,0.45)" rx="1"/>
+            </svg>
+            <div class="project-number-overlay">02</div>
+          </div>
+        </div>
+      </div>
+      <div class="project-info">
+        <p class="project-meta">02 / Project</p>
+        <div>
+          <h2 class="project-name">F1 Fantasy Team Optimiser</h2>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Optimisation</span>
+            <span class="tag">Data Analysis</span>
+          </div>
+          <p class="project-desc">Predicts F1 fantasy points using a machine learning pipeline trained on historical race data, then solves optimal team selection as an integer programme under budget and roster constraints.</p>
+        </div>
+        <a href="#" class="project-link">View Project <span class="link-arrow">→</span></a>
+      </div>
+    </article>
+
+    <!-- 03 -->
+    <article class="project-item" data-tags="nlp ml">
+      <p class="project-meta mobile-only">03 / Project</p>
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="project-visual-bg visual-nlp">
+            <svg width="320" height="240" viewBox="0 0 320 240" fill="none">
+              <text x="30" y="59"  fill="rgba(255,255,255,0.3)" font-size="9" font-family="monospace" text-anchor="end">C5</text>
+              <text x="30" y="89"  fill="rgba(255,255,255,0.3)" font-size="9" font-family="monospace" text-anchor="end">A4</text>
+              <text x="30" y="119" fill="rgba(255,255,255,0.3)" font-size="9" font-family="monospace" text-anchor="end">F4</text>
+              <text x="30" y="149" fill="rgba(255,255,255,0.3)" font-size="9" font-family="monospace" text-anchor="end">C4</text>
+              <g stroke="rgba(255,255,255,0.08)" stroke-width="1">
+                <line x1="34" y1="40" x2="34" y2="160"/><line x1="67" y1="40" x2="67" y2="160"/>
+                <line x1="100" y1="40" x2="100" y2="160"/><line x1="133" y1="40" x2="133" y2="160"/>
+                <line x1="166" y1="40" x2="166" y2="160"/><line x1="199" y1="40" x2="199" y2="160"/>
+                <line x1="232" y1="40" x2="232" y2="160"/><line x1="265" y1="40" x2="265" y2="160"/>
+                <line x1="298" y1="40" x2="298" y2="160"/>
+                <line x1="34" y1="40" x2="298" y2="40"/><line x1="34" y1="70" x2="298" y2="70"/>
+                <line x1="34" y1="100" x2="298" y2="100"/><line x1="34" y1="130" x2="298" y2="130"/>
+                <line x1="34" y1="160" x2="298" y2="160"/>
+              </g>
+              <rect x="133" y="40" width="33" height="120" fill="rgba(255,255,255,0.06)"/>
+              <rect x="35"  y="41" width="31" height="28" fill="rgba(200,64,26,0.75)" rx="1"/>
+              <rect x="167" y="41" width="31" height="28" fill="rgba(200,64,26,0.55)" rx="1"/>
+              <rect x="101" y="71" width="31" height="28" fill="rgba(200,64,26,0.65)" rx="1"/>
+              <rect x="233" y="71" width="31" height="28" fill="rgba(200,64,26,0.8)"  rx="1"/>
+              <rect x="68"  y="101" width="31" height="28" fill="rgba(200,64,26,0.6)" rx="1"/>
+              <rect x="167" y="101" width="31" height="28" fill="rgba(200,64,26,0.7)" rx="1"/>
+              <rect x="266" y="101" width="31" height="28" fill="rgba(200,64,26,0.5)" rx="1"/>
+              <rect x="35"  y="131" width="31" height="28" fill="rgba(200,64,26,0.9)" rx="1"/>
+              <rect x="101" y="131" width="31" height="28" fill="rgba(200,64,26,0.4)" rx="1"/>
+              <rect x="233" y="131" width="31" height="28" fill="rgba(200,64,26,0.65)" rx="1"/>
+              <text x="50"  y="34" fill="rgba(255,255,255,0.2)" font-size="8" font-family="monospace" text-anchor="middle">1</text>
+              <text x="83"  y="34" fill="rgba(255,255,255,0.2)" font-size="8" font-family="monospace" text-anchor="middle">2</text>
+              <text x="116" y="34" fill="rgba(255,255,255,0.2)" font-size="8" font-family="monospace" text-anchor="middle">3</text>
+              <text x="149" y="34" fill="rgba(255,255,255,0.4)" font-size="8" font-family="monospace" text-anchor="middle">4</text>
+              <text x="182" y="34" fill="rgba(255,255,255,0.2)" font-size="8" font-family="monospace" text-anchor="middle">5</text>
+              <text x="215" y="34" fill="rgba(255,255,255,0.2)" font-size="8" font-family="monospace" text-anchor="middle">6</text>
+              <text x="248" y="34" fill="rgba(255,255,255,0.2)" font-size="8" font-family="monospace" text-anchor="middle">7</text>
+              <text x="281" y="34" fill="rgba(255,255,255,0.2)" font-size="8" font-family="monospace" text-anchor="middle">8</text>
+              <text x="20" y="215" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="10">MARKOV CHAIN — ORDER 2</text>
+              <text x="20" y="228" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="10">BPM 120 — STEP 4/8</text>
+            </svg>
+            <div class="project-number-overlay">03</div>
+          </div>
+        </div>
+      </div>
+      <div class="project-info">
+        <p class="project-meta">03 / Project</p>
+        <div>
+          <h2 class="project-name">Generative Music Sequencer</h2>
+          <div class="project-tags">
+            <span class="tag">JavaScript</span>
+            <span class="tag">Markov Chains</span>
+            <span class="tag">Web Audio</span>
+          </div>
+          <p class="project-desc">A browser-based procedural music sequencer that uses Markov chains to generate melodic patterns. Features a visual step-sequencer interface with real-time waveform visualisation and MIDI export capabilities.</p>
+        </div>
+        <a href="#" class="project-link">View Project <span class="link-arrow">→</span></a>
+      </div>
+    </article>
+
+  </div><!-- /projects -->
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script src="../footer.js"></script>
+
+</div><!-- /page -->
+
+<script>
+  // Intersection Observer for scroll-in animation
+  const items = document.querySelectorAll('.project-item');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  items.forEach((item, i) => {
+    item.style.transitionDelay = `${i * 80}ms`;
+    observer.observe(item);
+  });
+
+  // Filter
+  function filterProjects(tag, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    items.forEach(item => {
+      const tags = item.dataset.tags || '';
+      const show = tag === 'all' || tags.includes(tag);
+      item.style.display = show ? 'grid' : 'none';
+    });
+  }
+</script>
+</body>
+</html>
