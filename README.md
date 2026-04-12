@@ -1,4 +1,4 @@
-# George Putney — Portfolio Website
+# Portfolio Website
 
 Personal portfolio site built with vanilla HTML, CSS, and JavaScript. No frameworks, no build tools.
 
@@ -46,7 +46,7 @@ portfolio-website/
 No setup required. Clone and open in a browser:
 
 ```bash
-git clone https://github.com/gputney/portfolio-website.git
+git clone https://github.com/georgeputney/portfolio-website.git
 cd portfolio-website
 open index.html
 ```
