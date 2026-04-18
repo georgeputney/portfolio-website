@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flappy Bird Neuroevolution — George Putney</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+
+  /* ── HERO ── */
+  .back-link-wrapper {
+    padding-top: 96px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-30);
+    text-decoration: none;
+    transition: color 250ms ease;
+  }
+  .back-link:hover { color: var(--ink); }
+  .back-link .back-arrow { display: inline-block; transition: transform 250ms ease; }
+  .back-link:hover .back-arrow { transform: translateX(-4px); }
+
+  .project-page-header {
+    padding-top: 32px;
+  }
+
+  /* ── BODY ── */
+  .section-pair {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 0;
+    align-items: start;
+    padding: 72px 0;
+  }
+
+  .section-pair--equal {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .section-pair--full {
+    grid-template-columns: 1fr;
+  }
+  .section-pair--full .section-text {
+    padding: 0;
+  }
+
+  .section-pair--equal .viewer-shell,
+  .section-pair--equal .viewer-controls {
+    max-width: none;
+  }
+
+  .section-pair > .section-label {
+    grid-column: 1 / -1;
+    margin-bottom: 32px;
+  }
+
+
+  /* ── SECTION TEXT (left column) ── */
+  .section-text {
+    padding: 0 64px 0 0;
+  }
+
+  .section-pair--reversed {
+    align-items: center;
+  }
+
+  .section-pair--reversed .section-text {
+    padding: 0 0 0 32px;
+  }
+
+  .section-pair--reversed .section-visual {
+    padding: 0 32px 0 0;
+  }
+
+  .narrative-section {
+    margin-bottom: 48px;
+  }
+
+  .narrative-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .narrative-section .section-label {
+    margin-bottom: 14px;
+  }
+
+  .narrative-section p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-60);
+    margin-bottom: 20px;
+  }
+
+  .narrative-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--ink-12);
+    border: 1px solid var(--ink-12);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 24px;
+  }
+
+  .stat-cell {
+    background: var(--bg);
+    padding: 18px 20px;
+  }
+
+  .stat-value {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-30);
+  }
+
+  .source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    position: relative;
+    margin-top: 32px;
+  }
+  .source-link::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0;
+    width: 0; height: 1px;
+    background: var(--ink);
+    transition: width 300ms ease;
+  }
+  .source-link:hover::after { width: 100%; }
+  .source-link .link-arrow {
+    display: inline-block;
+    transition: transform 300ms ease;
+  }
+  .source-link:hover .link-arrow { transform: translateX(4px); }
+
+  /* ── SECTION VISUAL (right column) ── */
+  .section-visual {
+    padding: 0 0 0 64px;
+  }
+
+  .section-visual > .section-label {
+    margin-bottom: 20px;
+  }
+
+  /* Viewer shell — dark theme within the light page */
+  .viewer-shell {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0f172a;
+    box-shadow: 0 4px 32px rgba(14,14,13,0.08);
+    max-width: 300px;
+  }
+
+  #simCanvas {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 500 / 430;
+    display: block;
+  }
+
+  /* Stats badge — small overlay in bottom-left of canvas */
+  .overlay {
+    position: absolute;
+    inset: auto auto 10px 10px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: rgba(15, 23, 42, 0.82);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    backdrop-filter: blur(4px);
+    font-family: var(--sans);
+    font-size: 11px;
+    color: #e5e7eb;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    pointer-events: none;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: 58px 58px;
+    gap: 2px 14px;
+  }
+
+  .stats .stat-val {
+    color: #f9fafb;
+  }
+
+  /* Controls — below the canvas, light-theme */
+  .viewer-controls {
+    margin-top: 12px;
+    display: grid;
+    gap: 8px;
+    max-width: 100%;
+  }
+
+  .controls {
+    display: grid;
+    gap: 8px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+  }
+
+  .controls-left {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+
+
+  .controls-right {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .viewer-controls button {
+    border: none;
+    background: transparent;
+    color: var(--ink-30);
+    padding: 0;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: var(--sans);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 200ms ease;
+  }
+  .viewer-controls button:hover {
+    color: var(--ink);
+  }
+
+  #playPauseBtn {
+    color: var(--ink);
+    letter-spacing: 0.16em;
+  }
+
+  .gen-indicator {
+    font-size: 11px;
+    color: var(--ink-30);
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+
+.speed-btn {
+    font-size: 11px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--ink-30);
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    transition: color 200ms ease;
+  }
+
+  .speed-btn.active {
+    color: var(--ink);
+  }
+
+  .viewer-caption {
+    font-size: 11px;
+    color: var(--ink-30);
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  .viewer-footer {
+    font-size: 11px;
+    color: var(--ink-30);
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  #errorMessage {
+    font-size: 11px;
+    color: #f87171;
+    margin-top: 6px;
+    white-space: pre-wrap;
+  }
+
+  /* ── GENOME FIGURE ── */
+  .genome-figure {
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .genome-img {
+    width: 108%;
+    margin-left: -2%;
+    margin-top: -7%;
+    margin-bottom: -14%;
+    height: auto;
+    display: block;
+    cursor: zoom-in;
+  }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(10, 10, 9, 0.88);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+  }
+
+  .lightbox.open {
+    display: flex;
+  }
+
+  .lightbox-inner {
+    position: relative;
+    overflow: hidden;
+    max-width: 92vw;
+    max-height: 92vh;
+    cursor: default;
+  }
+
+  .lightbox-img {
+    display: block;
+    max-width: 92vw;
+    max-height: 92vh;
+    width: auto;
+    height: auto;
+    transform-origin: center center;
+    transition: transform 80ms ease-out;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .lightbox-close {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color 200ms ease;
+  }
+  .lightbox-close:hover { color: rgba(255,255,255,0.9); }
+
+  .lightbox-hint {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    pointer-events: none;
+  }
+
+  /* ── CHALLENGES GRID ── */
+  .challenges-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0 48px;
+  }
+
+  .challenges-grid .narrative-section {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 960px) {
+    .challenges-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .challenges-grid .narrative-section {
+      margin-bottom: 48px;
+    }
+    .challenges-grid .narrative-section:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  /* ── HOW IT'S BUILT (mirrors landing page about section) ── */
+  .built-section {
+    padding: 72px 0;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0 80px;
+    align-items: start;
+  }
+
+  .built-body {
+    max-width: 640px;
+  }
+
+  .built-subsection-label {
+    display: block;
+    margin-top: 40px;
+    margin-bottom: 14px;
+  }
+
+  .built-section .about-statement {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.8vw, 34px);
+    font-weight: 300;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+  }
+
+  .built-section .about-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-60);
+    margin-bottom: 20px;
+  }
+
+  .built-section .about-text:last-of-type {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 960px) {
+    .built-section {
+      grid-template-columns: 1fr;
+      gap: 24px 0;
+      padding: 36px 0;
+    }
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 700ms ease, transform 700ms ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .back-link-wrapper { padding-top: 72px; }
+    .section-pair {
+      grid-template-columns: 1fr;
+      padding: 36px 0;
+      row-gap: 32px;
+    }
+    .section-pair > .section-label {
+      margin-bottom: 0;
+    }
+    .section-text,
+    .section-pair--reversed .section-text {
+      padding: 0;
+    }
+    .section-visual,
+    .section-pair--reversed .section-visual {
+      padding: 0;
+    }
+    .viewer-shell {
+      margin: 0 auto;
+    }
+    .viewer-controls {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .genome-figure {
+      margin: 0 auto;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+<script src="../../nav.js"></script>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="back-link-wrapper">
+    <a href="/projects/" class="back-link"><span class="back-arrow">←</span> All Projects</a>
+  </div>
+  <header class="page-header project-page-header">
+    <div>
+      <h1 class="page-title">Flappy Bird<br/>Neuroevolution</h1>
+    </div>
+    <div>
+      <p class="page-subtitle">Machine Learning &amp; Simulation</p>
+      <p class="subtitle-count">01 / Project</p>
+    </div>
+  </header>
+
+    <!-- OVERVIEW -->
+    <div class="built-section fade-up">
+      <p class="section-label">Overview</p>
+      <div class="built-body">
+        <h2 class="about-statement">Evolving neural networks to play Flappy Bird</h2>
+        <p class="about-text">This project uses NEAT (Neuroevolution of Augmenting Topologies, <a href="http://nn.cs.utexas.edu/downloads/papers/stanley.ec02.pdf" target="_blank" rel="noopener" style="color: inherit;">Stanley &amp; Miikkulainen, 2002</a>) to evolve neural networks that learn to play Flappy Bird.</p>
+        <p class="about-text"> NEAT treats topology as something to discover rather than decide. Layers and nodes are not chosen in advance; the algorithm starts minimal and adds structure only when it helps.</p>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="built-section fade-up">
+      <p class="section-label">How it works</p>
+      <div class="built-body">
+        <p class="about-text">The population plays a seeded, deterministic version of the game so every agent faces the same pipe sequence. Fitness is determined by pipes cleared; birds that die before reaching the first pipe score only their survival frames. The strongest genomes are selected, bred in pairs, and mutated to seed the next generation.</p>
+        <p class="about-text">Every network starts flat, with inputs wired directly to the output and no hidden layers. Structural complexity grows only through mutation: a connection mutation links two previously unconnected nodes; a node mutation splits an existing connection by inserting a hidden node in the middle, disabling the original and replacing it with two new connections that preserve its effect. This means the network earns every neuron it gets.</p>
+        <p class="about-text">Crossover between two parent genomes is made tractable by innovation numbers. Every connection, whenever it first appears in any genome, receives a unique global ID. When two parents are bred, connections with matching IDs are inherited randomly from either parent; connections present in only one parent are inherited from the fitter one. This aligns genes structurally rather than positionally, which matters once topologies start diverging.</p>
+        <p class="about-text">Speciation groups structurally similar genomes into niches, so innovative topologies aren't immediately outcompeted by more refined but simpler networks. Innovations get time to develop before competing at population scale.</p>
+      </div>
+    </div>
+
+    <!-- Replay viewer -->
+    <div class="section-pair section-pair--equal fade-up">
+      <p class="section-label">Replay viewer</p>
+      <div class="section-text">
+
+        <div class="narrative-section">
+          <p>The viewer replays recorded training data. Each generation shows the top 20 candidate networks selected by fitness rank. The orange-ringed bird is the generation's champion. Scrubbing between early and late generations makes the behavioral shift visible: early birds flap frantically and die within seconds; later ones settle into a measured rhythm that carries them through the full sequence.</p>
+          <p>Training stops automatically once all 20 birds survive the full evaluation window without dying. A generation limit exists as a fallback; in practice the population always converged before the limit. This run converged at generation 15.</p>
+          <p>The overlay shows the number of generations, birds still alive, the best pipe count reached so far, and pipes cleared in the current frame.</p>
+        </div>
+
+
+      </div>
+
+      <div class="section-visual">
+
+        <div class="viewer-shell">
+          <canvas id="simCanvas" width="500" height="430"></canvas>
+          <aside class="overlay">
+            <div class="stats">
+              <div>Gen <span class="stat-val" id="statGeneration">—</span></div>
+              <div>Alive <span class="stat-val" id="statAlive">—</span></div>
+              <div>Best <span class="stat-val" id="statBestGen">—</span></div>
+              <div>Now <span class="stat-val" id="statBestAll">—</span></div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="viewer-controls">
+          <div class="row">
+            <span class="controls-left">
+              <button id="prevGenBtn" type="button">Prev</button>
+              <button id="playPauseBtn" type="button">Play</button>
+              <button id="nextGenBtn" type="button">Next</button>
+            </span>
+            <span id="genIndicator" class="gen-indicator">— / —</span>
+            <span class="controls-right">
+              <button id="speed1x" type="button" class="speed-btn active">1×</button>
+              <button id="speed2x" type="button" class="speed-btn">2×</button>
+              <button id="speed4x" type="button" class="speed-btn">4×</button>
+            </span>
+          </div>
+        </div>
+
+        <p id="status" class="viewer-footer"></p>
+        <p id="errorMessage"></p>
+      </div>
+    </div>
+
+    <!-- Challenges -->
+    <div class="section-pair section-pair--full fade-up">
+      <p class="section-label">Challenges</p>
+      <div class="section-text">
+      <div class="challenges-grid">
+
+          <div class="narrative-section">
+            <p class="section-label">Convergence without gradients</p>
+            <p>There is no loss function to minimise. Whether adding a hidden node or a new connection actually helps can only be measured by running the full simulation, so the feedback loop is slow and noisy. Fitness routinely spikes by an order of magnitude one generation and collapses the next. Distinguishing genuine progress from noise was the central difficulty. Per-species elitism, carrying the best genome in each species forward unchanged, was the main stabiliser: it prevented a lucky high-fitness genome from being mutated away before the population caught up.</p>
+          </div>
+
+          <div class="narrative-section">
+            <p class="section-label">Speciation threshold</p>
+            <p>NEAT protects innovation by competing genomes only within their species. The compatibility threshold controls species count, and its effect is outsized: at 0.5 the population fragmented into 40+ species by generation 3 and stalled; at 3.0 everything collapsed into one species and structural innovation died before it could compound. 1.2 worked: a stable single-digit species count each generation meant the threshold was calibrated correctly.</p>
+          </div>
+
+          <div class="narrative-section">
+            <p class="section-label">Replay determinism</p>
+            <p>Making the browser viewer reproduce training exactly required each generation to be independently seeded. A single global seed would let the RNG drift across birds and generations: each agent's simulation consumes a variable number of random calls depending on survival length, so later birds would face different pipe sequences than earlier ones in the same generation. Seeding by generation index fixes the pipe sequence for the entire cohort and lets the viewer jump to any generation without replaying from the start.</p>
+          </div>
+
+        </div>
+    </div>
+    </div>
+
+    <!-- PAIR 4: Reading the diagram | Genome image -->
+    <div class="section-pair section-pair--equal section-pair--reversed fade-up">
+      <p class="section-label">Best genome</p>
+
+      <div class="section-visual">
+        <figure class="genome-figure">
+          <img src="best_genome.png" alt="Neural network diagram of the best evolved genome" class="genome-img" />
+        </figure>
+      </div>
+
+      <div class="section-text">
+        <div class="narrative-section">
+          <p>Each circle is a neuron. The five inputs on the left feed the network sensor readings: the bird's height, its vertical velocity, horizontal distance to the next pipe, how far the gap centre is from the bird, and the gap's size. The output on the right fires a single decision: flap or don't flap.</p>
+          <p>Lines between neurons are weighted connections. Thicker lines carry more influence; orange lines suppress activation, grey lines amplify it. Connections that evolution disabled are shown faintly and carry no signal.</p>
+          <p>Neurons in the middle column emerged during training. NEAT started with no hidden layer at all. Every hidden node was added by mutation across generations and retained only if it improved survival. The network you see is the minimal structure that learned to pass pipes indefinitely in the replay above.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW IT'S BUILT -->
+    <div class="built-section fade-up">
+      <p class="section-label">How it's built</p>
+      <div class="built-body">
+        <h2 class="about-statement">No ML frameworks, no game engines</h2>
+        <p class="about-text">Python. The entire NEAT algorithm is implemented from scratch: genome encoding, mutation, crossover, speciation, and innovation tracking. No ML frameworks, no NEAT libraries. Matplotlib is the only dependency, used solely to render the genome diagram.</p>
+        <p class="about-text">HTML5 Canvas and vanilla JavaScript. The replay viewer is a self-contained file pair with no framework and no game engine. Raw Canvas 2D API renders 20 birds simultaneously at up to 4× speed.</p>
+        <p class="about-text">JSON. Training writes two files: the best genome and the full generation-by-generation replay. The browser reads them directly off a static host. No server, no API, no database.</p>
+        <a href="https://github.com/georgeputney/flappy-bird-neuroevolution" class="source-link" target="_blank" rel="noopener">
+          View Source on GitHub <span class="link-arrow">→</span>
+        </a>
+      </div>
+    </div>
+
+  <!-- REFLECTION
+  <div class="built-section fade-up">
+    <p class="section-label">Reflection</p>
+    <div class="built-body">
+      <p class="about-text">The network that emerged (three hidden nodes, one disabled connection) is the structure evolution settled on. NEAT grew exactly what it needed and nothing more, which is either a sign the algorithm is working correctly or that the problem was not hard enough to demand more. Probably both.</p>
+      <p class="about-text">The fitness function has a flaw: scoring by pipes_cleared × 100 + survival_frames means early selection is nearly random; rankings come down to whether a bird survived 47 frames or 51. A per-frame reward based on distance to the gap centre would give the population a real gradient to climb before the first pipe gets cleared.</p>
+    </div>
+  </div> -->
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+
+</div>
+<script src="../../footer.js"></script>
+
+<div id="genomeLightbox" class="lightbox" role="dialog" aria-modal="true">
+  <div class="lightbox-inner" id="lightboxInner">
+    <img src="best_genome.png" alt="Best genome network diagram" class="lightbox-img" id="lightboxImg" draggable="false" />
+  </div>
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">&#x2715;</button>
+  <p class="lightbox-hint">Scroll to zoom &nbsp;·&nbsp; Click outside to close</p>
+</div>
+
+<script src="viewer.js"></script>
+<script>
+  (() => {
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    fadeEls.forEach(el => observer.observe(el));
+  })();
+</script>
+<script>
+  (() => {
+    const lightbox = document.getElementById('genomeLightbox');
+    const img = document.getElementById('lightboxImg');
+    const inner = document.getElementById('lightboxInner');
+    const closeBtn = document.getElementById('lightboxClose');
+    const trigger = document.querySelector('.genome-img');
+
+    let scale = 1;
+    const MIN = 1, MAX = 4;
+
+    function open() {
+      scale = 1;
+      img.style.transform = `scale(1)`;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    trigger?.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+    lightbox.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      scale = Math.min(MAX, Math.max(MIN, scale - e.deltaY * 0.001));
+      img.style.transform = `scale(${scale})`;
+    }, { passive: false });
+  })();
+</script>
+</body>
+</html>

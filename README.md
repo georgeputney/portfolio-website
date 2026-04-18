@@ -10,7 +10,7 @@ Personal portfolio site built with vanilla HTML, CSS, and JavaScript. No framewo
 
 - **Home:** Hero, about, skills, featured projects, and contact.
 - **Experience:** Timeline of work history.
-- **Projects:** Full project showcase.
+- **Projects:** Full project showcase, with case study pages per project.
 
 ## Stack
 
@@ -29,7 +29,10 @@ portfolio-website/
 ├── experience/
 │   └── index.html      # Experience page
 └── projects/
-    └── index.html      # Projects page
+    ├── index.html      # Projects page
+    └── flappy-bird-neuroevolution/
+        ├── index.html  # Case study page
+        └── viewer.js   # Replay viewer
 ```
 
 ## Features

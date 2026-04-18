@@ -139,6 +139,15 @@
     color: var(--ink-30);
   }
 
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-30);
+    padding-top: 6px;
+  }
+
   /* FILTER */
   .filter-bar {
     padding: 32px 0;
