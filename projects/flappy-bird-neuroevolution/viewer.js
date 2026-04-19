@@ -558,7 +558,7 @@
       ctx.textAlign = "center";
       ctx.fillStyle = "#e2e8f0";
       ctx.font = "bold 28px sans-serif";
-      ctx.fillText("▶", state.logicalWidth / 2, panelY + 36);
+      ctx.fillText("▶\uFE0E", state.logicalWidth / 2, panelY + 36);
       ctx.fillStyle = "#64748b";
       ctx.font = "11px sans-serif";
       ctx.letterSpacing = "0.1em";
