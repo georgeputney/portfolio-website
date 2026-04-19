@@ -158,10 +158,6 @@
     transition: width 300ms ease;
   }
   .source-link:hover::after { width: 100%; }
-  .source-link .link-arrow {
-    display: inline-block;
-    transition: transform 300ms ease;
-  }
   .source-link:hover .link-arrow { transform: translateX(4px); }
 
   /* ── SECTION VISUAL (right column) ── */
@@ -466,17 +462,6 @@
       gap: 24px 0;
       padding: 36px 0;
     }
-  }
-
-  /* ── ANIMATIONS ── */
-  .fade-up {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 700ms ease, transform 700ms ease;
-  }
-  .fade-up.visible {
-    opacity: 1;
-    transform: translateY(0);
   }
 
   /* ── RESPONSIVE ── */

@@ -120,16 +120,6 @@
     margin-bottom: 24px;
   }
 
-  .tag {
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-60);
-    border: 1px solid var(--ink-12);
-    padding: 5px 10px;
-    border-radius: 2px;
-  }
-
   .project-desc {
     font-size: 15px;
     line-height: 1.75;
@@ -162,10 +152,6 @@
   }
   .project-link:hover::after { width: 100%; }
 
-  .link-arrow {
-    display: inline-block;
-    transition: transform 300ms ease;
-  }
   .project-link:hover .link-arrow { transform: translateX(5px); }
 
   /* SVG ILLUSTRATIONS */
@@ -182,11 +168,8 @@
     .project-info { padding-top: 32px !important; }
   }
 
-  .mobile-only { display: none; }
-
 @media (max-width: 768px) {
 
-  .mobile-only { display: block; }
   .project-info .project-meta { display: none; }
 
   /* Stack project items to single column */
