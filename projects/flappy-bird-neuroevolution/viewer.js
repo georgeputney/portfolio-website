@@ -127,7 +127,16 @@
     if (!response.ok) {
       throw new Error(`HTTP ${response.status} ${response.statusText}\nURL: ${attemptedUrl}`);
     }
-    const raw = await response.text();
+    let raw;
+    if (path.split("?")[0].endsWith(".gz")) {
+      if (typeof DecompressionStream === "undefined") {
+        throw new Error("Your browser does not support DecompressionStream. Please use a modern browser (Chrome 80+, Firefox 113+, Safari 16.4+).");
+      }
+      const stream = response.body.pipeThrough(new DecompressionStream("gzip"));
+      raw = await new Response(stream).text();
+    } else {
+      raw = await response.text();
+    }
     try {
       return JSON.parse(raw);
     } catch (error) {
@@ -665,13 +674,13 @@
   }
 
   async function fetchReplay() {
-    const path = `./training_replay.json?v=${Date.now()}`;
+    const path = `./training_replay.json.gz?v=${Date.now()}`;
     const attemptedUrl = new URL(path, window.location.href).href;
     try {
       const data = await fetchJsonWithDiagnostics(path);
       const normalised = normaliseReplayData(data);
       if (!Array.isArray(normalised.generations) || normalised.generations.length === 0) {
-        throw new Error("training_replay.json loaded but has 0 generations.");
+        throw new Error("training_replay.json.gz loaded but has 0 generations.");
       }
       const hasShards = Array.isArray(normalised.generation_files) && normalised.generation_files.length > 0;
       const invalidGeneration = normalised.generations.find((generation) => !Array.isArray(generation.genomes) && !generation.file);
@@ -687,7 +696,7 @@
         `URL: ${attemptedUrl}`,
         "How to generate:",
         command,
-        "Expected file at: web/training_replay.json",
+        "Expected file at: web/training_replay.json.gz",
       ].join("\n"));
       throw error;
     }
