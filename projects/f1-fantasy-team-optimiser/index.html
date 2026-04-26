@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>F1 Fantasy Team Optimiser — George Putney</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+
+  .back-link-wrapper {
+    padding-top: 96px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-30);
+    text-decoration: none;
+    transition: color 250ms ease;
+  }
+  .back-link:hover { color: var(--ink); }
+  .back-link .back-arrow { display: inline-block; transition: transform 250ms ease; }
+  .back-link:hover .back-arrow { transform: translateX(-4px); }
+
+  .project-page-header {
+    padding-top: 32px;
+  }
+
+  .wip-section {
+    padding: 96px 0 160px;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0 80px;
+    align-items: start;
+  }
+
+  .wip-body {
+    max-width: 640px;
+  }
+
+  .wip-body .about-statement {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.8vw, 34px);
+    font-weight: 300;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+
+  .wip-body .about-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-60);
+    margin-bottom: 32px;
+  }
+
+  .source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    position: relative;
+  }
+  .source-link::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0;
+    width: 0; height: 1px;
+    background: var(--ink);
+    transition: width 300ms ease;
+  }
+  .source-link:hover::after { width: 100%; }
+  .source-link:hover .link-arrow { transform: translateX(4px); }
+  .link-arrow { display: inline-block; transition: transform 250ms ease; }
+
+  @media (max-width: 960px) {
+    .back-link-wrapper { padding-top: 72px; }
+    .wip-section {
+      grid-template-columns: 1fr;
+      gap: 24px 0;
+      padding: 48px 0 96px;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+<script src="../../nav.js"></script>
+
+<div class="page">
+
+  <div class="back-link-wrapper">
+    <a href="/projects/" class="back-link"><span class="back-arrow">←</span> All Projects</a>
+  </div>
+  <header class="page-header project-page-header">
+    <div>
+      <h1 class="page-title">F1 Fantasy<br/>Team Optimiser</h1>
+    </div>
+    <div>
+      <p class="page-subtitle">Data Science &amp; Optimisation</p>
+      <p class="subtitle-count">02 / Project</p>
+    </div>
+  </header>
+
+  <div class="wip-section fade-up">
+    <p class="section-label">Status</p>
+    <div class="wip-body">
+      <h2 class="about-statement">Work in progress.</h2>
+      <p class="about-text">This project is still under development. Check back soon, or follow along on GitHub.</p>
+      <a href="https://github.com/georgeputney/f1-fantasy-team-optimiser" class="source-link" target="_blank" rel="noopener noreferrer">
+        View on GitHub <span class="link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+</div>
+<script src="../../footer.js"></script>
+
+<script>
+  (() => {
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    fadeEls.forEach(el => observer.observe(el));
+  })();
+</script>
+</body>
+</html>
