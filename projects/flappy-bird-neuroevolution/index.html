@@ -523,8 +523,8 @@
       <p class="section-label">Overview</p>
       <div class="built-body">
         <h2 class="about-statement">Evolving neural networks to play Flappy Bird</h2>
-        <p class="about-text">This project uses NEAT (Neuroevolution of Augmenting Topologies, <a href="http://nn.cs.utexas.edu/downloads/papers/stanley.ec02.pdf" target="_blank" rel="noopener" style="color: inherit;">Stanley &amp; Miikkulainen, 2002</a>) to evolve neural networks that learn to play Flappy Bird.</p>
-        <p class="about-text"> NEAT treats topology as something to discover rather than decide. Layers and nodes are not chosen in advance; the algorithm starts minimal and adds structure only when it helps.</p>
+        <p class="about-text">Neural networks usually start with a fixed architecture (you decide the layers, the nodes, the connections) and training adjusts the weights. NEAT (Neuroevolution of Augmenting Topologies, <a href="http://nn.cs.utexas.edu/downloads/papers/stanley.ec02.pdf" target="_blank" rel="noopener" style="color: inherit;">Stanley &amp; Miikkulainen, 2002</a>) throws out that assumption. It starts with the simplest possible network and lets evolution discover the structure itself, adding nodes and connections only when they help; excess structure tends not to accumulate, because there's no reward for adding it. This project applies that idea to Flappy Bird: a population of birds plays the game, the ones that survive longest reproduce, and over generations the networks grow just complex enough to solve the problem.</p>
+        <p class="about-text">Neuroevolution applies wherever you can simulate an environment but can't easily define a loss function. The domain is a toy; the algorithm is not. Flappy Bird is just a clean, visual way to see the core mechanics working.</p>
       </div>
     </div>
 
@@ -646,14 +646,14 @@
       </div>
     </div>
 
-  <!-- REFLECTION
+  <!-- REFLECTIONS -->
   <div class="built-section fade-up">
-    <p class="section-label">Reflection</p>
+    <p class="section-label">Reflections</p>
     <div class="built-body">
-      <p class="about-text">The network that emerged (three hidden nodes, one disabled connection) is the structure evolution settled on. NEAT grew exactly what it needed and nothing more, which is either a sign the algorithm is working correctly or that the problem was not hard enough to demand more. Probably both.</p>
-      <p class="about-text">The fitness function has a flaw: scoring by pipes_cleared × 100 + survival_frames means early selection is nearly random; rankings come down to whether a bird survived 47 frames or 51. A per-frame reward based on distance to the gap centre would give the population a real gradient to climb before the first pipe gets cleared.</p>
+      <p class="about-text">The most interesting thing NEAT exposed is how much standard deep learning hides from you. With gradient descent you define the architecture upfront and watch weights converge; here the structure itself is the thing being learned, and watching it grow (a single flat network gaining its first hidden node at generation 4, then stabilising) made the learned solution interpretable in a way final weights rarely are.</p>
+      <p class="about-text">NEAT earns its complexity in domains where you don't know in advance what architecture would even work. On a problem this simple the tradeoff is unfavorable; 300 complete game episodes across 20 birds and 15 generations is a lot of simulation to learn a two-input decision. Gradient-based methods would converge faster here.</p>
     </div>
-  </div> -->
+  </div>
 
   <!-- FOOTER -->
   <div id="footer-placeholder"></div>
