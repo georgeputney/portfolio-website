@@ -325,15 +325,15 @@
   <!-- FILTER -->
   <div class="filter-bar">
     <button class="filter-btn active" onclick="filterExperience('all', this)">All</button>
-    <button class="filter-btn" onclick="filterExperience('industry', this)">Industry</button>
     <button class="filter-btn" onclick="filterExperience('finance', this)">Finance</button>
+    <button class="filter-btn" onclick="filterExperience('technology', this)">Technology</button>
   </div>
 
   <!-- EXPERIENCE LIST -->
   <div class="experience-list">
 
     <!-- 01 BlackRock -->
-    <article class="exp-item" data-tags="industry finance">
+    <article class="exp-item" data-tags="technology finance">
       <div class="exp-date">
         <p class="exp-period">Jun 2026 <br/>— Aug 2026</p>
         <p class="exp-duration"></p>
@@ -356,7 +356,7 @@
     </article>
 
     <!-- 02 UBS -->
-    <article class="exp-item" data-tags="industry finance">
+    <article class="exp-item" data-tags="technology finance">
       <div class="exp-date">
         <p class="exp-period">Jun 2025 <br/>— Jun 2026</p>
         <p class="exp-duration"></p>
@@ -377,7 +377,7 @@
           <li>Owned the migration and rollout of RBAC authorisation automations across 14 Azure Cognitive Services bank-wide, eliminating 20+ daily manual access approvals and strengthening UBS's cloud security posture.</li>
           <li>Implemented a suite of AI governance KPIs (materiality, answer relevancy, context relevancy, faithfulness) in Python for MyHub GPT Search, a RAG-based internal tool serving 40,000 users and 200,000 queries per month.</li>
           <li>Migrated the Software Distributions reporting pipeline from on-premises infrastructure to Azure Data Lake using SQL and Azure Data Factory, collaborating cross-functionally with the EUS data engineering team.</li>
-          <li>Developed a machine learning ticket volume prediction model (TSD Predictions), evaluating 10+ approaches across classical ML and time series methods including LightGBM, CatBoost, SARIMA, and Prophet.</li>
+          <li>Developed a machine learning ticket volume prediction model (TSD Predictions) on Databricks, engineering temporal features and benchmarking models with time-series cross-validation; LightGBM outperformed SARIMAX by 30% on MAE.</li>
         </ul>
       </div>
     </article>
@@ -416,14 +416,16 @@
       <p class="edu-meta">2023 — 2027 · BSc</p>
       <h3 class="edu-degree">Computer Science and Artificial Intelligence</h3>
       <p class="edu-school">University of Sheffield</p>
-      <p class="edu-detail" style="margin-top:14px">Integrated industrial placement programme. Currently achieving a first-class grade. Specialising in artificial intelligence and machine learning.</p>
+      <p class="edu-detail" style="margin-top:14px">Integrated industrial placement programme.</p> 
+      <p class="edu-detail">Currently achieving a first-class grade. Specialising in artificial intelligence and machine learning.</p>
     </div>
 
     <div class="edu-item">
       <p class="edu-meta">2020 — 2022 · A-Levels</p>
       <h3 class="edu-degree">Mathematics, Further Mathematics, Computer Science</h3>
       <p class="edu-school">Hampton College, Peterborough</p>
-      <p class="edu-detail" style="margin-top:14px">Grades: A*AA. Awarded the Pink Kangaroo certificate in the UKMT Intermediate Mathematical Challenge.</p>
+      <p class="edu-detail" style="margin-top:14px">Grades: A*AA.</p>
+      <p class="edu-detail">Awarded the Pink Kangaroo certificate in the UKMT Intermediate Mathematical Challenge.</p>
 
   </div>
 
