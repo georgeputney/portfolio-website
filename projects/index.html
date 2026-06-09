@@ -229,7 +229,6 @@
   <div class="filter-bar">
     <button class="filter-btn active" onclick="filterProjects('all', this)">All</button>
     <button class="filter-btn" onclick="filterProjects('ml', this)">Machine Learning</button>
-    <button class="filter-btn" onclick="filterProjects('nlp', this)">NLP</button>
     <button class="filter-btn" onclick="filterProjects('simulation', this)">Simulation</button>
   </div>
 
@@ -295,7 +294,7 @@
             <span class="tag">Optimisation</span>
             <span class="tag">Data Analysis</span>
           </div>
-          <p class="project-desc">Predicts F1 fantasy points using a machine learning pipeline trained on historical race data, then solves optimal team selection as an integer programme under budget and roster constraints.</p>
+          <p class="project-desc">Predicts F1 fantasy points using an XGBoost pipeline trained on historical race and practice session data, then solves optimal team selection as an integer programme under budget, roster, and transfer constraints. Results are presented through an interactive Streamlit dashboard.</p>
         </div>
         <a href="/projects/f1-fantasy-team-optimiser/" class="project-link">View Project <span class="link-arrow">→</span></a>
       </div>
