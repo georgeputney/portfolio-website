@@ -218,7 +218,7 @@
 
   .featured-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 2px;
   }
 
@@ -231,6 +231,7 @@
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 600ms ease, transform 600ms ease;
+    grid-column: span 3;
   }
 
   .featured-card.visible {
@@ -239,14 +240,18 @@
   }
 
   .featured-card-visual {
-    aspect-ratio: 3/4;
+    aspect-ratio: 4/3;
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: 40px;
+    padding: 40px 60px 0;
     position: relative;
     overflow: hidden;
     transition: transform 500ms ease;
+  }
+
+  .featured-card-visual svg {
+    max-width: 320px;
   }
 
   .featured-card:hover .featured-card-visual {
@@ -257,6 +262,7 @@
   .v-blue   { background: linear-gradient(160deg, #0f1923, #1e3040); }
   .v-warm   { background: linear-gradient(160deg, #1c1410, #2d2010); }
   .v-purple { background: linear-gradient(160deg, #12091e, #1e1030); }
+  .v-red    { background: linear-gradient(160deg, #1e0407, #2d0b0f); }
 
   .card-num {
     position: absolute;
@@ -567,7 +573,7 @@
       <div>
         <p class="skill-group-label">ML / AI</p>
         <ul class="skill-list">
-          <li>PyTorch</li>
+          <li>XGBoost</li>
           <li>Scikit-learn</li>
           <li>Reinforcement Learning</li>
           <li>Neural Networks</li>
@@ -595,6 +601,60 @@
         <a href="/projects" class="view-all-link">All projects <span class="link-arrow">→</span></a>
       </div>
       <div class="featured-grid">
+
+        <a href="/projects/f1-fantasy-team-optimiser/" class="featured-card">
+          <div class="featured-card-visual v-blue">
+            <svg width="100%" viewBox="0 0 320 240" fill="none" opacity="0.6" preserveAspectRatio="xMidYMid slice">
+              <!-- Header: driver | bar | PRED right@248 | £M right@285 -->
+              <text x="20" y="18" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9">DRIVER</text>
+              <text x="248" y="18" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">PRED</text>
+              <text x="285" y="18" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">£M</text>
+              <line x1="20" y1="24" x2="300" y2="24" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+              <!-- ANT — selected, 150 pts, £24.1M -->
+              <text x="54" y="44" fill="rgba(255,255,255,0.65)" font-family="monospace" font-size="10" text-anchor="end">ANT</text>
+              <rect x="60" y="34" width="155" height="14" fill="rgba(200,64,26,0.65)" rx="2"/>
+              <text x="248" y="44" fill="rgba(255,255,255,0.45)" font-family="monospace" font-size="9" text-anchor="end">50</text>
+              <text x="285" y="44" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="9" text-anchor="end">24.1</text>
+              <text x="296" y="45" fill="rgba(200,64,26,0.95)" font-family="monospace" font-size="11">✓</text>
+              <!-- LEC — selected, 111 pts, £23.7M -->
+              <text x="54" y="72" fill="rgba(255,255,255,0.65)" font-family="monospace" font-size="10" text-anchor="end">LEC</text>
+              <rect x="60" y="62" width="115" height="14" fill="rgba(200,64,26,0.65)" rx="2"/>
+              <text x="248" y="72" fill="rgba(255,255,255,0.45)" font-family="monospace" font-size="9" text-anchor="end">37</text>
+              <text x="285" y="72" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="9" text-anchor="end">23.7</text>
+              <text x="296" y="73" fill="rgba(200,64,26,0.95)" font-family="monospace" font-size="11">✓</text>
+              <!-- RUS — not selected, 111 pts, £28.3M -->
+              <text x="54" y="100" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="10" text-anchor="end">RUS</text>
+              <rect x="60" y="90" width="115" height="14" fill="rgba(255,255,255,0.07)" rx="2"/>
+              <text x="248" y="100" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">37</text>
+              <text x="285" y="100" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">28.3</text>
+              <!-- HAM — selected, 92 pts, £23.2M -->
+              <text x="54" y="128" fill="rgba(255,255,255,0.65)" font-family="monospace" font-size="10" text-anchor="end">HAM</text>
+              <rect x="60" y="118" width="95" height="14" fill="rgba(200,64,26,0.65)" rx="2"/>
+              <text x="248" y="128" fill="rgba(255,255,255,0.45)" font-family="monospace" font-size="9" text-anchor="end">30</text>
+              <text x="285" y="128" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="9" text-anchor="end">23.2</text>
+              <text x="296" y="129" fill="rgba(200,64,26,0.95)" font-family="monospace" font-size="11">✓</text>
+              <!-- VER — not selected, 77 pts, £28.2M -->
+              <text x="54" y="156" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="10" text-anchor="end">VER</text>
+              <rect x="60" y="146" width="79" height="14" fill="rgba(255,255,255,0.07)" rx="2"/>
+              <text x="248" y="156" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">26</text>
+              <text x="285" y="156" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">28.2</text>
+              <!-- Budget bar -->
+              <line x1="20" y1="174" x2="300" y2="174" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+              <text x="20" y="188" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="9">TOTAL — £96.9M / £100M</text>
+              <rect x="20" y="196" width="275" height="3" fill="rgba(255,255,255,0.06)" rx="1"/>
+              <rect x="20" y="196" width="266" height="3" fill="rgba(200,64,26,0.45)" rx="1"/>
+            </svg>
+            <p class="card-num">02</p>
+            <div class="card-overlay">
+              <p class="card-name">F1 Fantasy Team Optimiser</p>
+              <div class="card-tags">
+                <span class="card-tag">Python</span>
+                <span class="card-tag">Optimisation</span>
+                <span class="card-tag">Data Analysis</span>
+              </div>
+            </div>
+          </div>
+        </a>
 
         <a href="/projects/flappy-bird-neuroevolution/" class="featured-card">
           <div class="featured-card-visual v-dark">
@@ -653,60 +713,7 @@
           </div>
         </a>
 
-        <a href="/projects/f1-fantasy-team-optimiser/" class="featured-card">
-          <div class="featured-card-visual v-blue">
-            <svg width="100%" viewBox="0 0 320 240" fill="none" opacity="0.6" preserveAspectRatio="xMidYMid slice">
-              <!-- Header: driver | bar | PRED right@248 | £M right@285 -->
-              <text x="20" y="18" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9">DRIVER</text>
-              <text x="248" y="18" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">PRED</text>
-              <text x="285" y="18" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">£M</text>
-              <line x1="20" y1="24" x2="300" y2="24" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-              <!-- ANT — selected, 150 pts, £24.1M -->
-              <text x="54" y="44" fill="rgba(255,255,255,0.65)" font-family="monospace" font-size="10" text-anchor="end">ANT</text>
-              <rect x="60" y="34" width="155" height="14" fill="rgba(200,64,26,0.65)" rx="2"/>
-              <text x="248" y="44" fill="rgba(255,255,255,0.45)" font-family="monospace" font-size="9" text-anchor="end">50</text>
-              <text x="285" y="44" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="9" text-anchor="end">24.1</text>
-              <text x="296" y="45" fill="rgba(200,64,26,0.95)" font-family="monospace" font-size="11">✓</text>
-              <!-- LEC — selected, 111 pts, £23.7M -->
-              <text x="54" y="72" fill="rgba(255,255,255,0.65)" font-family="monospace" font-size="10" text-anchor="end">LEC</text>
-              <rect x="60" y="62" width="115" height="14" fill="rgba(200,64,26,0.65)" rx="2"/>
-              <text x="248" y="72" fill="rgba(255,255,255,0.45)" font-family="monospace" font-size="9" text-anchor="end">37</text>
-              <text x="285" y="72" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="9" text-anchor="end">23.7</text>
-              <text x="296" y="73" fill="rgba(200,64,26,0.95)" font-family="monospace" font-size="11">✓</text>
-              <!-- RUS — not selected, 111 pts, £28.3M -->
-              <text x="54" y="100" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="10" text-anchor="end">RUS</text>
-              <rect x="60" y="90" width="115" height="14" fill="rgba(255,255,255,0.07)" rx="2"/>
-              <text x="248" y="100" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">37</text>
-              <text x="285" y="100" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">28.3</text>
-              <!-- HAM — selected, 92 pts, £23.2M -->
-              <text x="54" y="128" fill="rgba(255,255,255,0.65)" font-family="monospace" font-size="10" text-anchor="end">HAM</text>
-              <rect x="60" y="118" width="95" height="14" fill="rgba(200,64,26,0.65)" rx="2"/>
-              <text x="248" y="128" fill="rgba(255,255,255,0.45)" font-family="monospace" font-size="9" text-anchor="end">30</text>
-              <text x="285" y="128" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="9" text-anchor="end">23.2</text>
-              <text x="296" y="129" fill="rgba(200,64,26,0.95)" font-family="monospace" font-size="11">✓</text>
-              <!-- VER — not selected, 77 pts, £28.2M -->
-              <text x="54" y="156" fill="rgba(255,255,255,0.35)" font-family="monospace" font-size="10" text-anchor="end">VER</text>
-              <rect x="60" y="146" width="79" height="14" fill="rgba(255,255,255,0.07)" rx="2"/>
-              <text x="248" y="156" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">26</text>
-              <text x="285" y="156" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="9" text-anchor="end">28.2</text>
-              <!-- Budget bar -->
-              <line x1="20" y1="174" x2="300" y2="174" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-              <text x="20" y="188" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="9">TOTAL — £96.9M / £100M</text>
-              <rect x="20" y="196" width="275" height="3" fill="rgba(255,255,255,0.06)" rx="1"/>
-              <rect x="20" y="196" width="266" height="3" fill="rgba(200,64,26,0.45)" rx="1"/>
-            </svg>
-            <p class="card-num">02</p>
-            <div class="card-overlay">
-              <p class="card-name">F1 Fantasy Team Optimiser</p>
-              <div class="card-tags">
-                <span class="card-tag">Python</span>
-                <span class="card-tag">Optimisation</span>
-                <span class="card-tag">Data Analysis</span>
-              </div>
-            </div>
-          </div>
-        </a>
-
+        <!-- HIDDEN: Generative Music Sequencer (commented out 2026-05-01)
         <a href="/projects" class="featured-card">
           <div class="featured-card-visual v-purple">
             <svg width="100%" viewBox="0 0 320 240" fill="none" opacity="0.6" preserveAspectRatio="xMidYMid slice">
@@ -745,7 +752,6 @@
               <text x="281" y="34" fill="rgba(255,255,255,0.2)" font-size="8" font-family="monospace" text-anchor="middle">8</text>
               <text x="20" y="195" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="10">MARKOV CHAIN — ORDER 2</text>
               <text x="20" y="208" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="10">BPM 120 — STEP 4/8</text>
-
             </svg>
             <p class="card-num">03</p>
             <div class="card-overlay">
@@ -758,6 +764,100 @@
             </div>
           </div>
         </a>
+        END HIDDEN -->
+
+        <!-- <a href="/projects/tfl-slime-mould/" class="featured-card">
+          <div class="featured-card-visual v-red">
+            <svg width="100%" viewBox="0 0 320 240" fill="none" opacity="0.7" preserveAspectRatio="xMidYMid slice">
+              
+            </svg>
+            <p class="card-num">03</p>
+            <div class="card-overlay">
+              <p class="card-name">TfL Slime Mould Simulation</p>
+              <div class="card-tags">
+                <span class="card-tag">Python</span>
+                <span class="card-tag">Simulation</span>
+                <span class="card-tag">Network Analysis</span>
+              </div>
+            </div>
+          </div>
+        </a> -->
+        <template> <!-- Rainforest Soundscape - uncomment when ready -->
+        <a href="/projects/rainforest-soundscape-monitor/" class="featured-card">
+          <div class="featured-card-visual v-warm">
+            <svg width="100%" viewBox="0 0 320 240" fill="none" opacity="0.7" preserveAspectRatio="xMidYMid slice">
+              <!-- Header -->
+              <text x="20" y="18" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="8">SOUNDSCAPE ANALYSIS</text>
+              <line x1="20" y1="24" x2="300" y2="24" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
+              <!-- Freq labels -->
+              <text x="48" y="46" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="6.5" text-anchor="end">8kHz</text>
+              <text x="48" y="65" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="6.5" text-anchor="end">4kHz</text>
+              <text x="48" y="84" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="6.5" text-anchor="end">2kHz</text>
+              <text x="48" y="103" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="6.5" text-anchor="end">500Hz</text>
+              <!-- Spectrogram — 8kHz row (bird calls, high activity) -->
+              <rect x="52" y="36" width="29" height="14" fill="rgba(200,100,40,0.15)" rx="1"/>
+              <rect x="85" y="36" width="29" height="14" fill="rgba(200,100,40,0.60)" rx="1"/>
+              <rect x="118" y="36" width="29" height="14" fill="rgba(200,100,40,0.35)" rx="1"/>
+              <rect x="151" y="36" width="29" height="14" fill="rgba(200,100,40,0.75)" rx="1"/>
+              <rect x="184" y="36" width="29" height="14" fill="rgba(200,100,40,0.25)" rx="1"/>
+              <rect x="217" y="36" width="29" height="14" fill="rgba(200,100,40,0.65)" rx="1"/>
+              <rect x="250" y="36" width="29" height="14" fill="rgba(200,100,40,0.45)" rx="1"/>
+              <!-- 4kHz row (high biophony) -->
+              <rect x="52" y="54" width="29" height="14" fill="rgba(200,100,40,0.45)" rx="1"/>
+              <rect x="85" y="54" width="29" height="14" fill="rgba(200,100,40,0.85)" rx="1"/>
+              <rect x="118" y="54" width="29" height="14" fill="rgba(200,100,40,0.60)" rx="1"/>
+              <rect x="151" y="54" width="29" height="14" fill="rgba(200,100,40,0.90)" rx="1"/>
+              <rect x="184" y="54" width="29" height="14" fill="rgba(200,100,40,0.55)" rx="1"/>
+              <rect x="217" y="54" width="29" height="14" fill="rgba(200,100,40,0.80)" rx="1"/>
+              <rect x="250" y="54" width="29" height="14" fill="rgba(200,100,40,0.65)" rx="1"/>
+              <!-- 2kHz row (medium biophony) -->
+              <rect x="52" y="72" width="29" height="14" fill="rgba(200,100,40,0.55)" rx="1"/>
+              <rect x="85" y="72" width="29" height="14" fill="rgba(200,100,40,0.45)" rx="1"/>
+              <rect x="118" y="72" width="29" height="14" fill="rgba(200,100,40,0.80)" rx="1"/>
+              <rect x="151" y="72" width="29" height="14" fill="rgba(200,100,40,0.40)" rx="1"/>
+              <rect x="184" y="72" width="29" height="14" fill="rgba(200,100,40,0.70)" rx="1"/>
+              <rect x="217" y="72" width="29" height="14" fill="rgba(200,100,40,0.50)" rx="1"/>
+              <rect x="250" y="72" width="29" height="14" fill="rgba(200,100,40,0.75)" rx="1"/>
+              <!-- 500Hz row (minimal anthropophony) -->
+              <rect x="52" y="90" width="29" height="14" fill="rgba(255,255,255,0.04)" rx="1"/>
+              <rect x="85" y="90" width="29" height="14" fill="rgba(255,255,255,0.03)" rx="1"/>
+              <rect x="118" y="90" width="29" height="14" fill="rgba(255,255,255,0.05)" rx="1"/>
+              <rect x="151" y="90" width="29" height="14" fill="rgba(255,255,255,0.03)" rx="1"/>
+              <rect x="184" y="90" width="29" height="14" fill="rgba(255,255,255,0.06)" rx="1"/>
+              <rect x="217" y="90" width="29" height="14" fill="rgba(255,255,255,0.03)" rx="1"/>
+              <rect x="250" y="90" width="29" height="14" fill="rgba(255,255,255,0.04)" rx="1"/>
+              <line x1="20" y1="116" x2="300" y2="116" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+              <!-- Acoustic indices -->
+              <text x="20" y="130" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="8">ACI</text>
+              <rect x="52" y="122" width="180" height="7" fill="rgba(255,255,255,0.05)" rx="1"/>
+              <rect x="52" y="122" width="155" height="7" fill="rgba(200,100,40,0.50)" rx="1"/>
+              <text x="240" y="129" fill="rgba(255,255,255,0.3)" font-family="monospace" font-size="7">86.2</text>
+              <text x="20" y="148" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="8">BI</text>
+              <rect x="52" y="140" width="180" height="7" fill="rgba(255,255,255,0.05)" rx="1"/>
+              <rect x="52" y="140" width="132" height="7" fill="rgba(200,100,40,0.40)" rx="1"/>
+              <text x="240" y="147" fill="rgba(255,255,255,0.3)" font-family="monospace" font-size="7">73.4</text>
+              <text x="20" y="166" fill="rgba(255,255,255,0.25)" font-family="monospace" font-size="8">NDSI</text>
+              <rect x="52" y="158" width="180" height="7" fill="rgba(255,255,255,0.05)" rx="1"/>
+              <rect x="52" y="158" width="163" height="7" fill="rgba(200,100,40,0.45)" rx="1"/>
+              <text x="240" y="165" fill="rgba(255,255,255,0.3)" font-family="monospace" font-size="7">90.7</text>
+              <line x1="20" y1="180" x2="300" y2="180" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+              <!-- Health score -->
+              <text x="20" y="198" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="8">ECOSYSTEM HEALTH</text>
+              <text x="300" y="206" fill="rgba(220,140,60,0.9)" font-family="monospace" font-size="22" text-anchor="end">78</text>
+              <text x="300" y="220" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="8" text-anchor="end">/ 100</text>
+            </svg>
+            <p class="card-num">03</p>
+            <div class="card-overlay">
+              <p class="card-name">Rainforest Soundscape Health Monitor</p>
+              <div class="card-tags">
+                <span class="card-tag">Python</span>
+                <span class="card-tag">Audio ML</span>
+                <span class="card-tag">PyTorch</span>
+              </div>
+            </div>
+          </div>
+        </a>
+        </template>
 
       </div>
     </div>
