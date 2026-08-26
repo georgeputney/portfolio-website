@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>George Putney</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23f7f6f3'/%3E%3Ctext x='33' y='47' font-family='Georgia,serif' font-size='44' text-anchor='middle' fill='%230e0e0d'%3EG%3Ctspan fill='%23c8401a'%3E.%3C/tspan%3E%3C/text%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -70,28 +71,6 @@
     flex-shrink: 0;
   }
 
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--sans);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: var(--bg);
-    background: var(--ink);
-    border: 1px solid var(--ink);
-    padding: 12px 24px;
-    text-decoration: none;
-    border-radius: 2px;
-    transition: background 250ms ease, color 250ms ease;
-  }
-  .btn-primary:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
-
   .btn-secondary {
     display: inline-flex;
     align-items: center;
@@ -143,11 +122,6 @@
   .projects-section,
   .contact-section {
     padding: 96px 0;
-    /* border-bottom: 1px solid var(--ink-12); */
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 0 80px;
-    align-items: start;
   }
 
   /* ── ABOUT ── */
@@ -155,24 +129,7 @@
     max-width: 640px;
   }
 
-  .about-statement {
-    font-family: var(--serif);
-    font-size: clamp(22px, 2.8vw, 34px);
-    font-weight: 300;
-    line-height: 1.4;
-    letter-spacing: -0.01em;
-    margin-bottom: 32px;
-  }
-
-  .about-statement em {
-    font-style: italic;
-    color: var(--ink-60);
-  }
-
-  .about-text {
-    font-size: 15px;
-    line-height: 1.8;
-    color: var(--ink-60);
+  .about-body .about-text {
     margin-bottom: 36px;
   }
 
@@ -219,12 +176,10 @@
   .featured-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 2px;
+    gap: 56px 32px;
   }
 
   .featured-card {
-    position: relative;
-    overflow: hidden;
     cursor: pointer;
     text-decoration: none;
     display: block;
@@ -247,62 +202,47 @@
     padding: 40px 60px 0;
     position: relative;
     overflow: hidden;
-    transition: transform 500ms ease;
   }
 
   .featured-card-visual svg {
     max-width: 320px;
+    transition: transform 500ms ease;
   }
 
-  .featured-card:hover .featured-card-visual {
+  .featured-card:hover .featured-card-visual svg {
     transform: scale(1.03);
   }
 
-  .v-dark   { background: linear-gradient(160deg, #1a1a1a, #2d2d2d); }
-  .v-blue   { background: linear-gradient(160deg, #0f1923, #1e3040); }
-  .v-warm   { background: linear-gradient(160deg, #1c1410, #2d2010); }
-  .v-purple { background: linear-gradient(160deg, #12091e, #1e1030); }
-  .v-red    { background: linear-gradient(160deg, #1e0407, #2d0b0f); }
+  .v-dark   { background: linear-gradient(135deg, #1a1a1a, #2d2d2d); }
+  .v-blue   { background: linear-gradient(135deg, #0f1923, #1e3040); }
+  .v-warm   { background: linear-gradient(135deg, #1c1410, #2d2010); }
+  .v-purple { background: linear-gradient(135deg, #12091e, #1e1030); }
+  .v-red    { background: linear-gradient(135deg, #1e0407, #2d0b0f); }
 
-  .card-num {
-    position: absolute;
-    top: 20px; left: 24px;
-    font-family: var(--serif);
-    font-size: 13px;
-    color: rgba(255,255,255,0.3);
-    letter-spacing: 0.1em;
-  }
-
-  .card-overlay {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    padding: 24px;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+  /* Figure-plate caption below each visual */
+  .card-caption {
+    padding-top: 16px;
   }
 
   .card-name {
     font-family: var(--serif);
     font-size: 20px;
     font-weight: 300;
-    color: rgba(255,255,255,0.9);
+    color: var(--ink);
     line-height: 1.2;
     margin-bottom: 6px;
+    transition: color 250ms ease;
+  }
+
+  .featured-card:hover .card-name {
+    color: var(--accent);
   }
 
   .card-tags {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .card-tag {
     font-size: 10px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
-    border: 1px solid rgba(255,255,255,0.15);
-    padding: 3px 8px;
-    border-radius: 2px;
+    color: var(--ink-30);
   }
 
   .view-all-link {
@@ -333,20 +273,6 @@
   /* ── CONTACT ── */
   .contact-inner {
     max-width: 560px;
-  }
-
-  .contact-statement {
-    font-family: var(--serif);
-    font-size: clamp(22px, 2.8vw, 34px);
-    font-weight: 300;
-    line-height: 1.4;
-    letter-spacing: -0.01em;
-    margin-bottom: 32px;
-  }
-
-  .contact-statement em {
-    font-style: italic;
-    color: var(--ink-60);
   }
 
   .contact-statement a {
@@ -463,7 +389,7 @@
 
   .featured-grid {
     grid-template-columns: 1fr;
-    gap: 2px;
+    gap: 48px;
   }
 
 .projects-section .section-label {
@@ -473,23 +399,17 @@
   .projects-top {
     display: none; /* hide the link above the grid */
   }
- 
+
   /* Show it again after the grid using a wrapper trick */
   .projects-section > div {
     display: flex;
     flex-direction: column;
   }
- 
+
   .featured-grid {
     order: 1;
   }
- 
-  /* Add the link below the grid */
-  .featured-grid::after {
-    content: '';
-    display: block;
-  }
- 
+
   /* Re-show the projects-top but move it below */
   .projects-section .projects-top {
     display: flex;
@@ -546,17 +466,16 @@
   </section>
 
   <!-- ABOUT -->
-  <section class="about-section fade-up">
+  <section class="about-section label-section fade-up">
     <p class="section-label">About</p>
     <div class="about-body">
-      <h2 class="about-statement">A software engineer with a deep interest in <em>machine learning, complex systems,</em> and building tools that surface meaning from scale.</h2>
-      <p class="about-text">I'm a BSc Computer Science student at the University of Sheffield, specialising in AI and ML. I've worked across investment banking technology at UBS, and I'm joining BlackRock's Aladdin Engineering team in summer 2026. I'm drawn to problems at the boundary of rigorous engineering and real-world impact, whether that's LLM infrastructure, RL agents, or data visualisation.</p>
-      <a href="/experience" class="btn-secondary">Full experience <span class="link-arrow">→</span></a>
+      <h2 class="about-statement">A software engineer with a deep interest in <em>machine learning, quantitative systems,</em> and building tools that surface meaning from scale.</h2>
+<p class="about-text">I'm a final-year BSc Computer Science and Artificial Intelligence student at the University of Sheffield, having completed a Software Engineering placement at UBS within the Emerging Technology function and a Quantitative Developer internship at BlackRock in Portfolio Risk Engineering. I'm drawn to problems at the boundary of rigorous engineering and real-world impact, whether that's LLM infrastructure, quantitative modelling, or data visualisation.</p>      <a href="/experience" class="btn-secondary">Full experience <span class="link-arrow">→</span></a>
     </div>
   </section>
 
   <!-- SKILLS -->
-  <section class="skills-section fade-up">
+  <section class="skills-section label-section fade-up">
     <p class="section-label">Skills</p>
     <div class="skills-grid">
 
@@ -594,7 +513,7 @@
   </section>
 
   <!-- FEATURED PROJECTS -->
-  <section class="projects-section fade-up">
+  <section class="projects-section label-section fade-up">
     <p class="section-label">Selected Work</p>
     <div>
       <div class="projects-top">
@@ -644,15 +563,11 @@
               <rect x="20" y="196" width="275" height="3" fill="rgba(255,255,255,0.06)" rx="1"/>
               <rect x="20" y="196" width="266" height="3" fill="rgba(200,64,26,0.45)" rx="1"/>
             </svg>
-            <p class="card-num">02</p>
-            <div class="card-overlay">
-              <p class="card-name">F1 Fantasy Team Optimiser</p>
-              <div class="card-tags">
-                <span class="card-tag">Python</span>
-                <span class="card-tag">Optimisation</span>
-                <span class="card-tag">Data Analysis</span>
-              </div>
-            </div>
+            <div class="project-number-overlay">02</div>
+          </div>
+          <div class="card-caption">
+            <p class="card-name">F1 Fantasy Team Optimiser</p>
+            <p class="card-tags">Python · Optimisation · Data Analysis</p>
           </div>
         </a>
 
@@ -701,15 +616,11 @@
               <text x="39" y="94" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="7" text-anchor="middle">gap</text>
               <text x="117" y="60"  fill="rgba(200,64,26,0.55)" font-family="monospace" font-size="6" text-anchor="middle">FLAP</text>
             </svg>
-            <p class="card-num">01</p>
-            <div class="card-overlay">
-              <p class="card-name">Flappy Bird Neuroevolution</p>
-              <div class="card-tags">
-                <span class="card-tag">Python</span>
-                <span class="card-tag">Neuroevolution</span>
-                <span class="card-tag">Simulation</span>
-              </div>
-            </div>
+            <div class="project-number-overlay">01</div>
+          </div>
+          <div class="card-caption">
+            <p class="card-name">Flappy Bird Neuroevolution</p>
+            <p class="card-tags">Python · Neuroevolution · Simulation</p>
           </div>
         </a>
 
@@ -846,15 +757,11 @@
               <text x="300" y="206" fill="rgba(220,140,60,0.9)" font-family="monospace" font-size="22" text-anchor="end">78</text>
               <text x="300" y="220" fill="rgba(255,255,255,0.2)" font-family="monospace" font-size="8" text-anchor="end">/ 100</text>
             </svg>
-            <p class="card-num">03</p>
-            <div class="card-overlay">
-              <p class="card-name">Rainforest Soundscape Health Monitor</p>
-              <div class="card-tags">
-                <span class="card-tag">Python</span>
-                <span class="card-tag">Audio ML</span>
-                <span class="card-tag">PyTorch</span>
-              </div>
-            </div>
+            <div class="project-number-overlay">03</div>
+          </div>
+          <div class="card-caption">
+            <p class="card-name">Rainforest Soundscape Health Monitor</p>
+            <p class="card-tags">Python · Audio ML · PyTorch</p>
           </div>
         </a>
         </template>
@@ -864,10 +771,10 @@
   </section>
 
   <!-- CONTACT -->
-  <section class="contact-section fade-up">
+  <section class="contact-section label-section fade-up">
     <p class="section-label">Contact</p>
     <div class="contact-inner">
-      <h2 class="contact-statement">Got something interesting? <a href="mailto:contact@georgeputney.com"><em>Get in touch.</em></a></h2>
+      <h2 class="about-statement contact-statement">Got something interesting? <a href="mailto:contact@georgeputney.com"><em>Get in touch.</em></a></h2>
       <a href="mailto:contact@georgeputney.com" class="contact-email">
         contact@georgeputney.com <span class="link-arrow">→</span>
       </a>

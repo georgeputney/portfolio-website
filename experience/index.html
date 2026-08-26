@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>George Putney — Experience</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23f7f6f3'/%3E%3Ctext x='33' y='47' font-family='Georgia,serif' font-size='44' text-anchor='middle' fill='%230e0e0d'%3EG%3Ctspan fill='%23c8401a'%3E.%3C/tspan%3E%3C/text%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -32,7 +33,7 @@
     display: grid;
     grid-template-columns: 200px 1px 1fr;
     gap: 0 40px;
-    padding: 72px 0;
+    padding: 56px 0;
     /* border-bottom: 1px solid var(--ink-12); */
     opacity: 0;
     transform: translateY(24px);
@@ -216,7 +217,35 @@
     font-size: 14px;
     line-height: 1.7;
     color: var(--ink-60);
-    max-width: 340px;
+    max-width: 460px;
+  }
+
+  .edu-list {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0 0;
+  }
+
+  .edu-list li {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink-60);
+    max-width: 460px;
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 12px;
+  }
+
+  .edu-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  .edu-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--ink-30);
+    font-size: 12px;
   }
 
 
@@ -340,17 +369,20 @@
       </div>
       <div class="exp-divider"></div>
       <div class="exp-content">
-        <p class="exp-meta">03 / Industry · Upcoming</p>
-        <h2 class="exp-role">Aladdin Application Engineering Intern</h2>
-        <p class="exp-company">BlackRock</p>
+        <p class="exp-meta">03 / Industry · Internship</p>
+        <h2 class="exp-role">Quantitative Developer Intern</h2>
+        <p class="exp-company">BlackRock · Portfolio Risk Engineering</p>
         <p class="exp-location">London, UK</p>
         <div class="exp-tags">
-          <span class="tag">Java</span>
-          <span class="tag">Portfolio Analytics</span>
-          <span class="tag">FinTech</span>
+          <span class="tag">Python</span>
+          <span class="tag">Financial Engineering</span>
+          <span class="tag">Risk Modelling</span>
+          <span class="tag">Agentic Workflows</span>
         </div>
         <ul class="exp-bullets">
-          <li>Selected for BlackRock's Aladdin Engineering internship within the Aladdin platform team.</li>
+          <li>Built and deployed an agentic Python pipeline diagnosing daily Quality Control exceptions across 34 equity factor risk models on Aladdin, isolating root causes across rule logic, model code, and factor exposure inputs.</li>
+          <li>Architected the tool as 15 specialised diagnostic skills, one per QC check, spanning statistical diagnostics (standardised factor returns, empirical vs structural risk divergence) and coverage checks.</li>
+          <li>Adopted by Aladdin Financial Engineering researchers for daily model sign-off across 8,340+ assets, replacing manual investigation and cutting per-exception triage from 30-60 minutes to under 5.</li>
         </ul>
       </div>
     </article>
@@ -364,21 +396,22 @@
       <div class="exp-divider"></div>
       <div class="exp-content">
         <p class="exp-meta">02 / Industry · Placement</p>
-        <h2 class="exp-role">Technology Industrial Placement</h2>
-        <p class="exp-company">UBS</p>
+        <h2 class="exp-role">Software Engineering Placement</h2>
+        <p class="exp-company">UBS · Emerging Technology</p>
         <p class="exp-location">London, UK</p>
         <div class="exp-tags">
           <span class="tag">Python</span>
           <span class="tag">Azure</span>
           <span class="tag">SQL</span>
+          <span class="tag">LightGBM</span>
           <span class="tag">Terraform</span>
         </div>
         <ul class="exp-bullets">
+          <li>Built the team's first ticket volume forecasting model in LightGBM on Databricks, engineering lag features across two-week folds on a six-month holdout, reaching a MASE of 0.74 and replacing manual workload estimates.</li>
+          <li>Implemented AI governance KPIs (materiality, answer relevancy, context relevancy, and faithfulness) in Python for a RAG-based internal tool serving 40,000 users and 200,000 queries per month, required for FINMA audit compliance.</li>
+          <li>Designed schemas and authored the SQL migrating 45+ tables and millions of rows from a legacy on-premise reporting platform to Azure Data Lake, validating parity against source ahead of decommissioning.</li>
           <li>Owned the migration and rollout of RBAC authorisation automations across 14 Azure Cognitive Services bank-wide, eliminating 20+ daily manual access approvals and strengthening UBS's cloud security posture.</li>
-          <li>Identified and validated Azure AI Search SKU downscaling from Standard to Basic following private VNET support, enabling ~£85k/month in projected cost savings across the bank's Cognitive Services estate.</li>
-          <li>Implemented a suite of AI governance KPIs (materiality, answer relevancy, context relevancy, faithfulness) in Python for MyHub GPT Search, a RAG-based internal tool serving 40,000 users and 200,000 queries per month.</li>
-          <li>Migrated the Software Distributions reporting pipeline to Azure Data Lake using SQL and Azure Data Factory, remediating non-compliant infrastructure while maintaining reporting continuity for downstream stakeholders.</li>
-          <li>Built a LightGBM-based ticket volume prediction model on Databricks, engineering temporal features with time-series cross-validation to support operational capacity planning.</li>
+          <li>Analysed query volume and latency telemetry across the bank's Azure AI Search estate to prove viable Basic tier production load ahead of private VNET support shipping, enabling £85k/month in projected savings.</li>
         </ul>
       </div>
     </article>
@@ -415,26 +448,32 @@
 
     <div class="edu-item">
       <p class="edu-meta">2023 — 2027 · BSc</p>
-      <h3 class="edu-degree">Computer Science and Artificial Intelligence</h3>
+      <h3 class="edu-degree">Computer Science and Artificial Intelligence (with Placement Year)</h3>
       <p class="edu-school">University of Sheffield</p>
-      <p class="edu-detail" style="margin-top:14px">Integrated industrial placement programme.</p> 
-      <p class="edu-detail">Currently achieving a first-class grade. Specialising in artificial intelligence and machine learning.</p>
+      <ul class="edu-list">
+        <li>Predicted First-Class Honours (72% average, Year 2).</li>
+        <li>Relevant modules: Advanced Algorithms, Reinforcement Learning, Modelling and Simulation of Natural Systems.</li>
+        <li>Dissertation: Monitoring Preterm Infant Breathing via low-cost wireless accelerometry, estimating respiratory rate from chest-worn accelerometer signals to flag apnoea, with the Centre for Infectious Disease Research in Zambia.</li>
+      </ul>
     </div>
 
     <div class="edu-item">
       <p class="edu-meta">2020 — 2022 · A-Levels</p>
       <h3 class="edu-degree">Mathematics, Further Mathematics, Computer Science</h3>
       <p class="edu-school">Hampton College, Peterborough</p>
-      <p class="edu-detail" style="margin-top:14px">Grades: A*AA.</p>
-      <p class="edu-detail">Awarded the Pink Kangaroo certificate in the UKMT Intermediate Mathematical Challenge.</p>
+      <ul class="edu-list">
+        <li>Grades: A*AA.</li>
+        <li>Awarded the Pink Kangaroo certificate in the UKMT Intermediate Mathematical Challenge, achieving the top score in the year group.</li>
+      </ul>
+    </div>
 
-  </div>
+  </div><!-- /edu-grid -->
+
+  <!-- FOOTER -->
+  <div id="footer-placeholder"></div>
+  <script src="../footer.js"></script>
 
 </div><!-- /page -->
-
-<!-- FOOTER -->
-<div id="footer-placeholder"></div>
-<script src="../footer.js"></script>
 
 <script>
   // Scroll-in animation

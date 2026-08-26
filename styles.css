@@ -182,6 +182,100 @@
     transition: transform 300ms ease;
   }
 
+  /* BACK LINK (project pages) */
+  .back-link-wrapper {
+    padding-top: 96px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-30);
+    text-decoration: none;
+    transition: color 250ms ease;
+  }
+  .back-link:hover { color: var(--ink); }
+  .back-link .back-arrow { display: inline-block; transition: transform 250ms ease; }
+  .back-link:hover .back-arrow { transform: translateX(-4px); }
+
+  /* SOURCE LINK */
+  .source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    position: relative;
+    margin-top: 32px;
+  }
+  .source-link::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0;
+    width: 0; height: 1px;
+    background: var(--ink);
+    transition: width 300ms ease;
+  }
+  .source-link:hover::after { width: 100%; }
+  .source-link:hover .link-arrow { transform: translateX(4px); }
+
+  /* STATEMENT + BODY TEXT */
+  .about-statement {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.8vw, 34px);
+    font-weight: 300;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+  }
+
+  .about-statement em {
+    font-style: italic;
+    color: var(--ink-60);
+  }
+
+  .about-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-60);
+    margin-bottom: 20px;
+  }
+
+  /* LABEL SECTION (200px label column + content) */
+  .label-section {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0 80px;
+    align-items: start;
+  }
+
+  /* GHOST NUMBER (project visuals) */
+  .project-number-overlay {
+    position: absolute;
+    bottom: 20px; right: 24px;
+    font-family: var(--serif);
+    font-size: 80px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* KEYBOARD FOCUS */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 3px;
+  }
+
   /* TAG */
   .tag {
     font-size: 10px;
@@ -202,6 +296,19 @@
   .fade-up.visible {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-up,
+    .featured-card,
+    .exp-item,
+    .edu-item,
+    .project-item {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+    html { scroll-behavior: auto; }
   }
 
   /* MOBILE ONLY */
@@ -356,6 +463,10 @@
 
 .nav-drawer-icons a:hover {
   color: var(--ink);
+}
+
+@media (max-width: 960px) {
+  .back-link-wrapper { padding-top: 72px; }
 }
 
 @media (max-width: 768px) {
