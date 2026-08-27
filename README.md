@@ -22,17 +22,20 @@ Personal portfolio site built with vanilla HTML, CSS, and JavaScript. No framewo
 
 ```
 portfolio-website/
-├── index.html          # Home page
-├── styles.css          # Global styles
-├── nav.js              # Shared nav component
-├── footer.js           # Shared footer component
+├── index.html                # Home page
+├── styles.css                # Global styles
+├── nav.js                    # Shared nav component
+├── footer.js                 # Shared footer component
 ├── experience/
-│   └── index.html      # Experience page
+│   └── index.html            # Experience page
 └── projects/
-    ├── index.html      # Projects page
-    └── flappy-bird-neuroevolution/
-        ├── index.html  # Case study page
-        └── viewer.js   # Replay viewer
+    ├── index.html            # Projects page
+    ├── flappy-bird-neuroevolution/
+    │   ├── index.html        # Case study page
+    │   └── viewer.js         # Replay viewer
+    └── f1-fantasy-team-optimiser/
+        ├── index.html        # Case study page
+        └── pitwall-hero.png  # Live app screenshot
 ```
 
 ## Features
