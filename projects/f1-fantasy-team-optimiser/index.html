@@ -118,8 +118,26 @@
     height: 0;
   }
 
-  @media (max-width: 640px) {
-    .pipeline-arrow { display: none; }
+  /* Below 960px, stop relying on flex-wrap to happen to land on a 5+5 split
+     (it doesn't, reliably, across real devices/fonts) - force exactly 5
+     columns so the two rows are structurally guaranteed rather than a
+     matter of what fits. */
+  @media (max-width: 960px) {
+    .pipeline-flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+    .pipeline-arrow,
+    .pipeline-break {
+      display: none;
+    }
+    .pipeline-flow .tag {
+      text-align: center;
+      padding: 8px 4px;
+      font-size: 9px;
+      letter-spacing: 0.02em;
+    }
   }
 
   /* ── WIDE VISUAL (results chart needs more room than a 1:1 split gives it) ── */
