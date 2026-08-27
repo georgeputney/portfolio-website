@@ -248,6 +248,79 @@
     margin-bottom: 20px;
   }
 
+  .about-text:last-of-type {
+    margin-bottom: 0;
+  }
+
+  /* PROJECT WRITE-UP SHARED LAYOUT (built-section, section-pair, narrative-section,
+     challenges-grid — shared by every /projects/<slug>/ write-up page) */
+  .project-page-header {
+    padding-top: 32px;
+  }
+
+  .built-section {
+    padding: 72px 0;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 0 80px;
+    align-items: start;
+  }
+
+  .built-body {
+    max-width: 640px;
+  }
+
+  .section-pair {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 0;
+    align-items: start;
+    padding: 72px 0;
+  }
+
+  .section-pair--equal {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .section-pair--reversed .section-text {
+    padding: 0 0 0 32px;
+  }
+  .section-pair--reversed .section-visual {
+    padding: 0 32px 0 0;
+  }
+
+  .section-pair > .section-label {
+    grid-column: 1 / -1;
+    margin-bottom: 32px;
+  }
+
+  .section-text {
+    padding: 0 64px 0 0;
+  }
+
+  .section-visual {
+    padding: 0 0 0 64px;
+  }
+
+  .narrative-section p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-60);
+    margin-bottom: 20px;
+  }
+  .narrative-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .challenges-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0 48px;
+  }
+  .challenges-grid .narrative-section {
+    margin-bottom: 0;
+  }
+
   /* LABEL SECTION (200px label column + content) */
   .label-section {
     display: grid;
@@ -467,6 +540,40 @@
 
 @media (max-width: 960px) {
   .back-link-wrapper { padding-top: 72px; }
+
+  .built-section {
+    grid-template-columns: 1fr;
+    gap: 24px 0;
+    padding: 36px 0;
+  }
+
+  .section-pair {
+    grid-template-columns: 1fr;
+    padding: 36px 0;
+    row-gap: 32px;
+  }
+  .section-pair > .section-label {
+    margin-bottom: 0;
+  }
+  .section-text,
+  .section-pair--reversed .section-text {
+    padding: 0;
+  }
+  .section-visual,
+  .section-pair--reversed .section-visual {
+    padding: 0;
+  }
+
+  .challenges-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .challenges-grid .narrative-section {
+    margin-bottom: 48px;
+  }
+  .challenges-grid .narrative-section:last-child {
+    margin-bottom: 0;
+  }
 }
 
 @media (max-width: 768px) {

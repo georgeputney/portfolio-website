@@ -10,87 +10,169 @@
 <link rel="stylesheet" href="../../styles.css" />
 <style>
 
-  .back-link-wrapper {
-    padding-top: 96px;
+  /* screenshot frame - same shadow/radius language as flappy's viewer-shell */
+  .shot-frame {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 32px rgba(14,14,13,0.08);
   }
-
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+  .shot-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .shot-caption {
     font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
     color: var(--ink-30);
-    text-decoration: none;
-    transition: color 250ms ease;
-  }
-  .back-link:hover { color: var(--ink); }
-  .back-link .back-arrow { display: inline-block; transition: transform 250ms ease; }
-  .back-link:hover .back-arrow { transform: translateX(-4px); }
-
-  .project-page-header {
-    padding-top: 32px;
+    margin-top: 12px;
+    line-height: 1.5;
   }
 
-  .wip-section {
-    padding: 96px 0 160px;
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 0 80px;
-    align-items: start;
-  }
-
-  .wip-body {
-    max-width: 640px;
-  }
-
-  .wip-body .about-statement {
-    font-family: var(--serif);
-    font-size: clamp(22px, 2.8vw, 34px);
-    font-weight: 300;
-    line-height: 1.4;
-    letter-spacing: -0.01em;
-    margin-bottom: 24px;
-  }
-
-  .wip-body .about-text {
-    font-size: 15px;
-    line-height: 1.8;
-    color: var(--ink-60);
-    margin-bottom: 32px;
-  }
-
-  .source-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink);
-    text-decoration: none;
+  /* ── RESULTS CHART (native SVG, built from live backtest data) ── */
+  .results-chart-wrap {
     position: relative;
+    background: var(--bg);
   }
-  .source-link::after {
-    content: '';
+
+  .results-chart {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: var(--bg);
+  }
+
+  .rc-col {
+    --bar-color: rgba(14, 14, 13, 0.22);
+  }
+  .rc-col.is-worst {
+    --bar-color: var(--accent);
+  }
+  .rc-col.is-best {
+    --bar-color: rgba(14, 14, 13, 0.4);
+  }
+  .rc-bar, .rc-bar-cap {
+    fill: var(--bar-color);
+  }
+  .rc-avg-line {
+    stroke: rgba(14, 14, 13, 0.35);
+    stroke-width: 1;
+  }
+  .rc-baseline {
+    stroke: var(--ink-12);
+    stroke-width: 1;
+  }
+  .rc-title-label {
+    font: 400 11.5px var(--sans);
+    fill: var(--ink-60);
+  }
+  .rc-axis-label {
+    font: 400 10px var(--sans);
+    fill: var(--ink-30);
+  }
+  .rc-value-label {
+    font: 500 12px var(--sans);
+    fill: var(--ink);
+  }
+  .rc-avg-label {
+    font: 400 10px var(--sans);
+    fill: var(--ink-30);
+  }
+
+  /* SVG text scales with the whole chart, so on a narrow mobile column the
+     same "px" values render much smaller than they would in plain HTML -
+     bump them here to compensate. */
+  @media (max-width: 640px) {
+    .rc-title-label { font-size: 24px; }
+    .rc-axis-label { font-size: 20px; }
+    .rc-value-label { font-size: 26px; }
+    .rc-avg-label { font-size: 20px; }
+  }
+
+  .sr-only {
     position: absolute;
-    bottom: -3px; left: 0;
-    width: 0; height: 1px;
-    background: var(--ink);
-    transition: width 300ms ease;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
-  .source-link:hover::after { width: 100%; }
-  .source-link:hover .link-arrow { transform: translateX(4px); }
-  .link-arrow { display: inline-block; transition: transform 250ms ease; }
+
+  /* ── PIPELINE DIAGRAM (reuses the site's existing .tag pill) ── */
+  .pipeline-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 0;
+    margin-bottom: 28px;
+  }
+
+  .pipeline-arrow {
+    color: var(--ink-30);
+    padding: 0 10px;
+    font-size: 12px;
+  }
+
+  .pipeline-break {
+    flex-basis: 100%;
+    height: 0;
+  }
+
+  @media (max-width: 640px) {
+    .pipeline-arrow { display: none; }
+  }
+
+  /* ── WIDE VISUAL (results chart needs more room than a 1:1 split gives it) ── */
+  .section-pair--wide-visual {
+    grid-template-columns: 2fr 3fr;
+    grid-template-rows: auto 1fr;
+  }
+  .section-pair--wide-visual > .section-label {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .section-pair--wide-visual .section-text {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .section-pair--wide-visual .section-visual {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
 
   @media (max-width: 960px) {
-    .back-link-wrapper { padding-top: 72px; }
-    .wip-section {
+    .section-pair--wide-visual {
       grid-template-columns: 1fr;
-      gap: 24px 0;
-      padding: 48px 0 96px;
+      grid-template-rows: auto;
     }
+    .section-pair--wide-visual > .section-label,
+    .section-pair--wide-visual .section-text,
+    .section-pair--wide-visual .section-visual {
+      grid-column: 1;
+      grid-row: auto;
+    }
+    .section-pair--wide-visual .section-visual {
+      display: block;
+      height: auto;
+      justify-content: flex-start;
+    }
+  }
+
+  /* ── CHALLENGES-STYLE GRID additions (base grid rules now shared in styles.css) ── */
+  .challenges-grid .narrative-section p {
+    margin-bottom: 0;
+  }
+
+  .challenges-grid .deeper-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
   }
 
 </style>
@@ -102,6 +184,7 @@
 
 <div class="page">
 
+  <!-- HERO -->
   <div class="back-link-wrapper">
     <a href="/projects/" class="back-link"><span class="back-arrow">←</span> All Projects</a>
   </div>
@@ -115,14 +198,198 @@
     </div>
   </header>
 
-  <div class="wip-section fade-up">
-    <p class="section-label">Status</p>
-    <div class="wip-body">
-      <h2 class="about-statement">Work in progress.</h2>
-      <p class="about-text">This project is still under development. Check back soon, or follow along on GitHub.</p>
+  <!-- OVERVIEW -->
+  <div class="built-section fade-up">
+    <p class="section-label">Overview</p>
+    <div class="built-body">
+      <h2 class="about-statement">Predicting an unpredictable sport, then optimising around the prediction</h2>
+      <p class="about-text"><a href="https://fantasy.formula1.com/en/game-rules" style="color: inherit;" target="_blank" rel="noopener">F1 Fantasy</a> has you draft five drivers and two constructors under a hundred-million budget, one driver doubled as captain for double points, with only two free transfers a round before extra moves cost ten points each. This project builds the full pipeline behind that decision: models that forecast qualifying and race outcomes from historical and practice data, and an integer program that turns those forecasts into the provably best legal team, not just a plausible one.</p>
+      <p class="about-text">It runs as a live web app, <a href="https://pitwall.georgeputney.com" style="color: inherit;" target="_blank" rel="noopener">Pitwall</a>, that has picked a team for every round of the 2026 season without me touching it: a GitHub Actions pipeline re-ingests each session as it happens and pushes fresh predictions straight to production. The rest of this page walks through how it's built; three sub-pages go deeper into the prediction models, the probabilistic scoring layer, and the optimiser itself.</p>
+    </div>
+  </div>
+
+  <!-- PIPELINE -->
+  <div class="built-section fade-up">
+    <p class="section-label">Pipeline</p>
+    <div class="built-body">
+      <h2 class="about-statement">One pipeline, ten stages, no manual steps</h2>
+      <div class="pipeline-flow">
+        <span class="tag">FastF1</span><span class="pipeline-arrow">→</span>
+        <span class="tag">Ingest</span><span class="pipeline-arrow">→</span>
+        <span class="tag">Clean</span><span class="pipeline-arrow">→</span>
+        <span class="tag">Targets</span><span class="pipeline-arrow">→</span>
+        <span class="tag">Prices</span><span class="pipeline-arrow">→</span>
+        <div class="pipeline-break"></div>
+        <span class="tag">Features</span><span class="pipeline-arrow">→</span>
+        <span class="tag">Train</span><span class="pipeline-arrow">→</span>
+        <span class="tag">Predict</span><span class="pipeline-arrow">→</span>
+        <span class="tag">Compose</span><span class="pipeline-arrow">→</span>
+        <span class="tag">Optimise</span>
+      </div>
+      <p class="about-text">Ingest pulls race, qualifying, practice, sprint and pit stop data from <a href="https://github.com/theOehrly/Fast-F1" style="color: inherit;" target="_blank" rel="noopener">FastF1</a>; clean validates it against pandera schemas before anything downstream can see it. Features are engineered across three timeframes: rolling driver and constructor form, FP2/FP3 practice pace, and circuit-level effects like overtake difficulty and DNF rate. Two XGBoost models predict qualifying and finish position; three separate probabilistic models estimate fastest lap, Driver of the Day, and overtakes. Compose combines all of it into expected fantasy points per the game's own scoring rules, and optimise solves the team-selection problem as an integer program under budget, roster, and transfer constraints.</p>
+      <p class="about-text">Every stage is a Typer CLI command, independently runnable and independently testable: the same commands a developer runs locally are what the CI pipeline calls in production.</p>
+    </div>
+  </div>
+
+  <!-- HEADLINE RESULTS -->
+  <div class="section-pair section-pair--wide-visual fade-up">
+    <p class="section-label">Headline results</p>
+    <div class="section-text">
+      <div class="narrative-section">
+        <p>The oracle is the best legal team any manager could have picked for a round, chosen with hindsight after results are known: the real ceiling, not a strawman. Measured against it across every round of the 2026 season, the model has scored <strong style="color: var(--ink);">2,713 of a possible 3,829 points</strong>, 71% of the oracle on average, ranging from 97% at its best round (round 10) down to 13% at its worst (round 6).</p>
+        <p>The walk-forward backtest runs this every round, worst included, against two naive baselines: repeating last round's picks, and a season-mean prior. All three play by the same rules, same budget, same transfers, so beating them isn't a matter of an easier problem. It has beaten both in every round of 2026 so far.</p>
+      </div>
+    </div>
+    <div class="section-visual">
+      <div class="results-chart-wrap">
+        <svg class="results-chart" viewBox="0 0 720 280" role="img" aria-labelledby="rcTitle">
+          <title id="rcTitle">Percent of oracle points achieved by round, 2026 season</title>
+          <text x="0" y="20" class="rc-title-label">% of oracle achieved by round · average marked</text>
+
+          <line x1="0" y1="99" x2="720" y2="99" class="rc-avg-line" />
+          <text x="720" y="94" text-anchor="end" class="rc-avg-label">avg 71%</text>
+          <line x1="0" y1="240" x2="720" y2="240" class="rc-baseline" />
+
+          <text x="330" y="200" text-anchor="middle" class="rc-value-label">13%</text>
+          <text x="570" y="38.3" text-anchor="middle" class="rc-value-label">97%</text>
+
+          <g class="rc-col">
+            <rect class="rc-bar" x="18" y="93.1" width="24" height="146.9" rx="4" ry="4" />
+            <rect class="rc-bar-cap" x="18" y="235.9" width="24" height="4" />
+            <text x="30" y="256" text-anchor="middle" class="rc-axis-label">1</text>
+          </g>
+          <g class="rc-col">
+            <rect class="rc-bar" x="78" y="96.5" width="24" height="143.5" rx="4" ry="4" />
+            <rect class="rc-bar-cap" x="78" y="235.9" width="24" height="4" />
+            <text x="90" y="256" text-anchor="middle" class="rc-axis-label">2</text>
+          </g>
+          <g class="rc-col">
+            <rect class="rc-bar" x="138" y="99.3" width="24" height="140.7" rx="4" ry="4" />
+            <rect class="rc-bar-cap" x="138" y="235.9" width="24" height="4" />
+            <text x="150" y="256" text-anchor="middle" class="rc-axis-label">3</text>
+          </g>
+          <g class="rc-col">
+            <rect class="rc-bar" x="198" y="108.8" width="24" height="131.2" rx="4" ry="4" />
+            <rect class="rc-bar-cap" x="198" y="235.9" width="24" height="4" />
+            <text x="210" y="256" text-anchor="middle" class="rc-axis-label">4</text>
+          </g>
+          <g class="rc-col">
+            <rect class="rc-bar" x="258" y="86.5" width="24" height="153.5" rx="4" ry="4" />
+            <rect class="rc-bar-cap" x="258" y="235.9" width="24" height="4" />
+            <text x="270" y="256" text-anchor="middle" class="rc-axis-label">5</text>
+          </g>
+          <g class="rc-col is-worst">
+            <rect class="rc-bar" x="318" y="214.4" width="24" height="25.6" rx="4" ry="4" />
+            <rect class="rc-bar-cap" x="318" y="235.9" width="24" height="4" />
+            <text x="330" y="256" text-anchor="middle" class="rc-axis-label">6</text>
+          </g>
+          <g class="rc-col">
+            <rect class="rc-bar" x="378" y="139.3" width="24" height="100.7" rx="4" ry="4" />
+            <rect class="rc-bar-cap" x="378" y="235.9" width="24" height="4" />
+            <text x="390" y="256" text-anchor="middle" class="rc-axis-label">7</text>
+          </g>
+          <g class="rc-col">
+            <rect class="rc-bar" x="438" y="81.9" width="24" height="158.1" rx="4" ry="4" />
+            <rect class="rc-bar-cap" x="438" y="235.9" width="24" height="4" />
+            <text x="450" y="256" text-anchor="middle" class="rc-axis-label">8</text>
+          </g>
+          <g class="rc-col">
+            <rect class="rc-bar" x="498" y="75.8" width="24" height="164.2" rx="4" ry="4" />
+            <rect class="rc-bar-cap" x="498" y="235.9" width="24" height="4" />
+            <text x="510" y="256" text-anchor="middle" class="rc-axis-label">9</text>
+          </g>
+          <g class="rc-col is-best">
+            <rect class="rc-bar" x="558" y="46.3" width="24" height="193.7" rx="4" ry="4" />
+            <rect class="rc-bar-cap" x="558" y="235.9" width="24" height="4" />
+            <text x="570" y="256" text-anchor="middle" class="rc-axis-label">10</text>
+          </g>
+          <g class="rc-col">
+            <rect class="rc-bar" x="618" y="80.3" width="24" height="159.7" rx="4" ry="4" />
+            <rect class="rc-bar-cap" x="618" y="235.9" width="24" height="4" />
+            <text x="630" y="256" text-anchor="middle" class="rc-axis-label">11</text>
+          </g>
+          <g class="rc-col">
+            <rect class="rc-bar" x="678" y="65.6" width="24" height="174.4" rx="4" ry="4" />
+            <rect class="rc-bar-cap" x="678" y="235.9" width="24" height="4" />
+            <text x="690" y="256" text-anchor="middle" class="rc-axis-label">12</text>
+          </g>
+        </svg>
+        <ul class="sr-only">
+          <li>Round 1: 73%</li><li>Round 2: 72%</li><li>Round 3: 70%</li><li>Round 4: 66%</li>
+          <li>Round 5: 77%</li><li>Round 6: 13%, worst round</li><li>Round 7: 50%</li><li>Round 8: 79%</li>
+          <li>Round 9: 82%</li><li>Round 10: 97%, best round</li><li>Round 11: 80%</li><li>Round 12: 87%</li>
+        </ul>
+      </div>
+      <p class="shot-caption">Plotted from the live track-record data behind Pitwall: the same numbers behind the figures above, graded in public every round.</p>
+    </div>
+  </div>
+
+  <!-- GO DEEPER -->
+  <div class="built-section fade-up">
+    <p class="section-label">Go deeper</p>
+    <div class="built-body" style="max-width: 100%;">
+      <div class="challenges-grid">
+
+        <div class="narrative-section">
+          <h3 class="deeper-title">Prediction &amp; Backtesting</h3>
+          <p>The XGBoost models behind quali and finish position, the walk-forward season splits that keep training honest, and the backtest harness that grades every round against the oracle and two baselines. Full season-by-season results included, not just the average shown here.</p>
+          <a href="/projects/f1-fantasy-team-optimiser/prediction-and-backtesting/" class="source-link">Read more <span class="link-arrow">→</span></a>
+        </div>
+
+        <div class="narrative-section">
+          <h3 class="deeper-title">Probabilistic Scoring &amp; Monte Carlo</h3>
+          <p>Three separate probability models for fastest lap, Driver of the Day, and overtakes, plus a calibrated Monte Carlo layer that turns a point estimate into a likely range. Covers how each was calibrated against historical outcomes, and where the layer wasn't good enough to trust with selection.</p>
+          <a href="/projects/f1-fantasy-team-optimiser/probabilistic-scoring-and-monte-carlo/" class="source-link">Read more <span class="link-arrow">→</span></a>
+        </div>
+
+        <div class="narrative-section">
+          <h3 class="deeper-title">Optimisation Engine</h3>
+          <p>The integer program that turns predictions into a legal, budget-constrained team, including the captain bonus and transfer penalty terms in its own objective function, plus the two extra ILPs that bound reachable season-long budget and enumerate ranked alternative teams.</p>
+          <a href="/projects/f1-fantasy-team-optimiser/optimisation-engine/" class="source-link">Read more <span class="link-arrow">→</span></a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE PRODUCT -->
+  <div class="section-pair section-pair--equal fade-up">
+    <p class="section-label">The live product</p>
+    <div class="section-text">
+      <div class="narrative-section">
+        <p>Pitwall is the React and TypeScript frontend that puts all of this in front of a real user: squad controls, a live points projection, and the driver/constructor ladder, breakdown, value, and track-record views referenced above, served as static files by the same FastAPI process that answers its own API calls.</p>
+        <p>Every view ships as two independent components rather than one squeezed responsive layout: Hero and HeroMobile, Ladder and LadderMobile, Transfers and TransfersMobile, and so on down the rest of the app. Each breakpoint gets a layout actually designed for it instead of a compromise that works passably on both.</p>
+        <p>The screenshot alongside is pulled live from <a href="https://pitwall.georgeputney.com" style="color: inherit;" target="_blank" rel="noopener">pitwall.georgeputney.com</a>, not a mockup, and worth a visit to see the rest of it in motion.</p>
+      </div>
+    </div>
+    <div class="section-visual">
+      <div class="shot-frame">
+        <img src="pitwall-hero.png" width="1280" height="900" alt="Pitwall squad controls and live points projection" />
+      </div>
+      <p class="shot-caption">Squad controls and live projection: every slot is editable, and the projected points, budget, and suggested transfer recompute immediately.</p>
+    </div>
+  </div>
+
+  <!-- AUTOMATED PIPELINE -->
+  <div class="built-section fade-up">
+    <p class="section-label">Automated pipeline</p>
+    <div class="built-body">
+      <h2 class="about-statement">Runs itself, on a race weekend's schedule</h2>
+      <p class="about-text">Python for the pipeline: pandas, XGBoost, PuLP with the CBC solver, pandera validating every dataset at each stage boundary, Typer for the CLI. FastAPI exposes it all to a React, TypeScript and Vite frontend, bundled into one Docker image so a single uvicorn process serves both: no separate frontend host, no extra build step in production.</p>
+      <p class="about-text">A GitHub Actions workflow polls FastF1 every 20 minutes on Friday, Saturday and Monday for a new session. When one appears, it fires the full pipeline at one of three points in a race weekend: after FP2 for early preliminary predictions, after FP3 (or sprint qualifying) for the full pre-race picture, and after the race itself for the next round's baseline.</p>
+      <p class="about-text">Each run re-ingests the previous round, rebuilds features, generates predictions, and runs the backtest after a race, routing through Cloudflare WARP to avoid FastF1 rate limits along the way. The results are committed straight back to the repository, which triggers a redeploy on Render: no separate publish step, no human in the loop. The commit that lands after FP3 on a Saturday is the prediction a real manager would see.</p>
       <a href="https://github.com/georgeputney/f1-fantasy-team-optimiser" class="source-link" target="_blank" rel="noopener noreferrer">
-        View on GitHub <span class="link-arrow">→</span>
+        View Source on GitHub <span class="link-arrow">→</span>
       </a>
+    </div>
+  </div>
+
+  <!-- REFLECTIONS -->
+  <div class="built-section fade-up">
+    <p class="section-label">Reflections</p>
+    <div class="built-body">
+      <p class="about-text">Optimisation turned out to be the well-behaved half of the problem. An integer program with linear constraints is provably optimal and solves in milliseconds; once the expected points are in hand, choosing the best legal team stops being a judgment call. Prediction is where the honesty has to be earned: not against a held-out test set once, but against a live oracle every single week, including the weeks it loses.</p>
+      <p class="about-text">The most useful negative result came from Monte Carlo. A calibrated simulation layer won cleanly on driver-level accuracy against the ranked point estimates: tighter residuals, better-calibrated ranges. It still lost when plugged into actual team selection, because ranking drivers well and picking a coherent team under a shared budget aren't the same objective. It stayed in as the display-only range shown in the app rather than the signal the optimiser trusts, which felt like the right call to make from a backtest rather than an intuition.</p>
     </div>
   </div>
 

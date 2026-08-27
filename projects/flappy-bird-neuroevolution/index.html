@@ -10,43 +10,7 @@
 <link rel="stylesheet" href="../../styles.css" />
 <style>
 
-  /* ── HERO ── */
-  .back-link-wrapper {
-    padding-top: 96px;
-  }
-
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-30);
-    text-decoration: none;
-    transition: color 250ms ease;
-  }
-  .back-link:hover { color: var(--ink); }
-  .back-link .back-arrow { display: inline-block; transition: transform 250ms ease; }
-  .back-link:hover .back-arrow { transform: translateX(-4px); }
-
-  .project-page-header {
-    padding-top: 32px;
-  }
-
   /* ── BODY ── */
-  .section-pair {
-    display: grid;
-    grid-template-columns: 3fr 2fr;
-    gap: 0;
-    align-items: start;
-    padding: 72px 0;
-  }
-
-  .section-pair--equal {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .section-pair--full {
     grid-template-columns: 1fr;
   }
@@ -59,29 +23,11 @@
     max-width: none;
   }
 
-  .section-pair > .section-label {
-    grid-column: 1 / -1;
-    margin-bottom: 32px;
-  }
-
-
-  /* ── SECTION TEXT (left column) ── */
-  .section-text {
-    padding: 0 64px 0 0;
-  }
-
   .section-pair--reversed {
     align-items: center;
   }
 
-  .section-pair--reversed .section-text {
-    padding: 0 0 0 32px;
-  }
-
-  .section-pair--reversed .section-visual {
-    padding: 0 32px 0 0;
-  }
-
+  /* ── SECTION TEXT (left column) ── */
   .narrative-section {
     margin-bottom: 48px;
   }
@@ -92,17 +38,6 @@
 
   .narrative-section .section-label {
     margin-bottom: 14px;
-  }
-
-  .narrative-section p {
-    font-size: 15px;
-    line-height: 1.8;
-    color: var(--ink-60);
-    margin-bottom: 20px;
-  }
-
-  .narrative-section p:last-child {
-    margin-bottom: 0;
   }
 
   .stat-grid {
@@ -137,34 +72,7 @@
     color: var(--ink-30);
   }
 
-  .source-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink);
-    text-decoration: none;
-    position: relative;
-    margin-top: 32px;
-  }
-  .source-link::after {
-    content: '';
-    position: absolute;
-    bottom: -3px; left: 0;
-    width: 0; height: 1px;
-    background: var(--ink);
-    transition: width 300ms ease;
-  }
-  .source-link:hover::after { width: 100%; }
-  .source-link:hover .link-arrow { transform: translateX(4px); }
-
   /* ── SECTION VISUAL (right column) ── */
-  .section-visual {
-    padding: 0 0 0 64px;
-  }
-
   .section-visual > .section-label {
     margin-bottom: 20px;
   }
@@ -393,96 +301,15 @@
     pointer-events: none;
   }
 
-  /* ── CHALLENGES GRID ── */
-  .challenges-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 0 48px;
-  }
-
-  .challenges-grid .narrative-section {
-    margin-bottom: 0;
-  }
-
-  @media (max-width: 960px) {
-    .challenges-grid {
-      grid-template-columns: 1fr;
-      gap: 0;
-    }
-    .challenges-grid .narrative-section {
-      margin-bottom: 48px;
-    }
-    .challenges-grid .narrative-section:last-child {
-      margin-bottom: 0;
-    }
-  }
-
   /* ── HOW IT'S BUILT (mirrors landing page about section) ── */
-  .built-section {
-    padding: 72px 0;
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 0 80px;
-    align-items: start;
-  }
-
-  .built-body {
-    max-width: 640px;
-  }
-
   .built-subsection-label {
     display: block;
     margin-top: 40px;
     margin-bottom: 14px;
   }
 
-  .built-section .about-statement {
-    font-family: var(--serif);
-    font-size: clamp(22px, 2.8vw, 34px);
-    font-weight: 300;
-    line-height: 1.4;
-    letter-spacing: -0.01em;
-    margin-bottom: 32px;
-  }
-
-  .built-section .about-text {
-    font-size: 15px;
-    line-height: 1.8;
-    color: var(--ink-60);
-    margin-bottom: 20px;
-  }
-
-  .built-section .about-text:last-of-type {
-    margin-bottom: 0;
-  }
-
-  @media (max-width: 960px) {
-    .built-section {
-      grid-template-columns: 1fr;
-      gap: 24px 0;
-      padding: 36px 0;
-    }
-  }
-
   /* ── RESPONSIVE ── */
   @media (max-width: 960px) {
-    .back-link-wrapper { padding-top: 72px; }
-    .section-pair {
-      grid-template-columns: 1fr;
-      padding: 36px 0;
-      row-gap: 32px;
-    }
-    .section-pair > .section-label {
-      margin-bottom: 0;
-    }
-    .section-text,
-    .section-pair--reversed .section-text {
-      padding: 0;
-    }
-    .section-visual,
-    .section-pair--reversed .section-visual {
-      padding: 0;
-    }
     .viewer-shell {
       margin: 0 auto;
     }
